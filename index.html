@@ -8,47 +8,59 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     --azul:#185FA5; --azul-l:#E6F1FB; --azul-m:#B5D4F4;
-    --teal:#0F6E56; --teal-l:#E1F5EE; --teal-m:#9FE1CB;
-    --amber:#854F0B; --amber-l:#FAEEDA; --amber-m:#FAC775;
-    --coral:#993C1D; --coral-l:#FAECE7; --coral-m:#F5C4B3;
-    --purple:#534AB7; --purple-l:#EEEDFE; --purple-m:#CECBF6;
+    --teal:#0F6E56; --teal-l:#E1F5EE;
+    --amber:#854F0B; --amber-l:#FAEEDA;
+    --coral:#993C1D; --coral-l:#FAECE7;
+    --purple:#534AB7; --purple-l:#EEEDFE;
     --gray:#444441; --gray-l:#F1EFE8; --gray-m:#D3D1C7;
     --red:#A32D2D; --red-l:#FCEBEB; --red-m:#F7C1C1;
-    --green:#3B6D11; --green-l:#EAF3DE; --green-m:#C0DD97;
+    --green:#3B6D11; --green-l:#EAF3DE;
     --body-bg:#f8f7f4; --border:#c8c6bc; --border-h:#a8a69e;
     --text:#1a1a18; --text-s:#5f5e5a; --text-xs:#888780;
     --shadow:0 1px 3px rgba(0,0,0,0.08);
   }
-  body { font-family: system-ui,-apple-system,sans-serif; background:var(--body-bg); color:var(--text); font-size:13px; line-height:1.5; }
+  body { font-family:system-ui,-apple-system,sans-serif; background:var(--body-bg); color:var(--text); font-size:13px; line-height:1.5; }
 
-  header { background:white; border-bottom:1px solid var(--border); padding:12px 16px 10px; position:sticky; top:0; z-index:200; box-shadow:var(--shadow); display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap; }
-  .header-left h1 { font-size:14px; font-weight:600; color:var(--text); }
-  .header-left p { font-size:11px; color:var(--text-s); margin-top:2px; }
+  header { background:white; border-bottom:1px solid var(--border); padding:10px 16px; position:sticky; top:0; z-index:200; box-shadow:var(--shadow); display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+  .header-left h1 { font-size:14px; font-weight:600; }
+  .header-left p { font-size:11px; color:var(--text-s); margin-top:1px; }
   .legend { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
   .leg-item { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--text-s); white-space:nowrap; }
   .leg-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
   .leg-gap { background:var(--red-m); border:1.5px solid var(--red); }
   .leg-nav { background:var(--azul-m); border:1.5px solid var(--azul); }
 
-  .toolbar { background:white; border-bottom:1px solid var(--border); padding:7px 16px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; position:sticky; top:61px; z-index:190; }
+  .toolbar { background:white; border-bottom:1px solid var(--border); padding:6px 16px; display:flex; gap:6px; flex-wrap:wrap; align-items:center; position:sticky; top:57px; z-index:190; }
   .tb-btn { display:inline-flex; align-items:center; gap:5px; font-size:11px; padding:5px 10px; border:1px solid var(--border-h); border-radius:5px; background:white; cursor:pointer; color:var(--text-s); transition:background .15s; white-space:nowrap; }
   .tb-btn:hover { background:var(--gray-l); }
   .tb-btn svg { width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; }
+  .tb-btn.primary { background:#1a1a18; color:white; border-color:#1a1a18; }
+  .tb-btn.primary:hover { background:#333; }
+  .tb-btn.success { background:#0F6E56; color:white; border-color:#0F6E56; }
+  .tb-btn.success:hover { background:#0a5040; }
+  .tb-btn.danger { background:var(--red-l); color:var(--red); border-color:var(--red-m); }
   .tb-sep { width:1px; height:22px; background:var(--border); margin:0 2px; }
-  .tb-label { font-size:10px; color:var(--text-xs); }
 
-  .container { padding:16px 14px 40px; overflow-x:auto; }
+  /* STATUS BAR */
+  .status-bar { background:var(--gray-l); border-bottom:1px solid var(--border); padding:4px 16px; font-size:10px; color:var(--text-s); display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .status-dot { width:7px; height:7px; border-radius:50%; display:inline-block; margin-right:3px; }
+  .status-dot.ok { background:#0F6E56; }
+  .status-dot.warn { background:#FAC775; }
+  .status-dot.err { background:var(--red); }
+  .version-list { display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+  .ver-chip { font-size:10px; padding:2px 7px; border-radius:10px; border:1px solid var(--border-h); background:white; cursor:pointer; color:var(--text-s); }
+  .ver-chip:hover { background:var(--azul-l); color:var(--azul); border-color:var(--azul-m); }
+  .ver-chip.active { background:var(--azul-l); color:var(--azul); border-color:var(--azul); font-weight:600; }
 
+  .container { padding:14px 12px 40px; overflow-x:auto; }
   table { border-collapse:collapse; min-width:860px; width:100%; background:white; border-radius:8px; overflow:hidden; box-shadow:var(--shadow); }
-
-  thead tr th { padding:9px 8px; border:1px solid var(--border); font-weight:600; font-size:11px; text-align:center; vertical-align:middle; line-height:1.3; position:relative; }
+  thead tr th { padding:8px 8px; border:1px solid var(--border); font-weight:600; font-size:11px; text-align:center; vertical-align:middle; line-height:1.3; position:relative; }
   th.col-actor { background:var(--gray-l); color:var(--gray); width:100px; font-size:10px; text-align:left; padding-left:8px; }
+  th.col-actor-head { background:#1a1a18; color:white; width:100px; }
   th.col-stage { background:#1a1a18; color:white; }
   th.col-stage .stage-title { font-size:11px; font-weight:500; display:block; outline:none; }
   th.col-stage .stage-sub { font-size:9px; font-weight:400; opacity:.6; display:block; margin-top:2px; outline:none; }
   th.col-stage:hover .col-controls { opacity:1; }
-  th.col-actor-head { background:#1a1a18; color:white; width:100px; }
-
   .col-controls { position:absolute; top:3px; right:3px; display:flex; gap:2px; opacity:0; transition:opacity .15s; }
   .col-ctrl-btn { background:rgba(255,255,255,.15); border:none; border-radius:3px; cursor:pointer; padding:2px 4px; font-size:9px; color:white; line-height:1; }
   .col-ctrl-btn:hover { background:rgba(255,255,255,.3); }
@@ -65,9 +77,7 @@
 
   td { border:1px solid var(--border); padding:7px 8px; vertical-align:top; position:relative; }
   td.actor-cell { font-weight:600; font-size:11px; color:var(--text-s); width:100px; background:#fafaf8; line-height:1.4; }
-  td.actor-cell[contenteditable="true"] { outline:2px solid var(--azul); border-radius:2px; }
   tr:not(.section-sep):hover td { background:#fdfcf9; }
-  tr:not(.section-sep):hover td.actor-cell { background:#f7f6f2; }
   tr:not(.section-sep):hover .row-controls { opacity:1; }
 
   .cell-wrap { position:relative; }
@@ -75,7 +85,6 @@
   .cell-main:focus { background:rgba(24,95,165,.04); border-radius:3px; }
   .gap-tag { display:block; margin-top:4px; font-size:10px; color:var(--red); background:var(--red-l); border-left:2.5px solid var(--red); padding:2px 5px; border-radius:0 3px 3px 0; line-height:1.4; outline:none; }
   .nav-tag { display:block; margin-top:4px; font-size:10px; color:var(--azul); background:var(--azul-l); border-left:2.5px solid var(--azul); padding:2px 5px; border-radius:0 3px 3px 0; line-height:1.4; outline:none; }
-  .gap-tag:focus, .nav-tag:focus { opacity:.85; }
   .empty { color:var(--text-xs); font-size:11px; text-align:center; opacity:.35; }
 
   .cell-add-btns { display:none; gap:4px; margin-top:5px; flex-wrap:wrap; }
@@ -90,30 +99,29 @@
 
   .row-controls { position:absolute; right:4px; top:50%; transform:translateY(-50%); display:flex; gap:3px; opacity:0; transition:opacity .15s; z-index:10; }
   .row-ctrl-btn { background:white; border:1px solid var(--border-h); border-radius:4px; cursor:pointer; padding:2px 5px; font-size:9px; color:var(--text-s); line-height:1.2; white-space:nowrap; }
-  .row-ctrl-btn:hover { background:var(--gray-l); color:var(--text); }
+  .row-ctrl-btn:hover { background:var(--gray-l); }
   .row-ctrl-btn.del { color:var(--red); }
   .row-ctrl-btn.del:hover { background:var(--red-l); }
 
-  /* Modal */
   .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:500; display:flex; align-items:center; justify-content:center; }
   .modal { background:white; border-radius:10px; padding:20px; width:340px; box-shadow:0 4px 20px rgba(0,0,0,.15); }
   .modal h3 { font-size:13px; font-weight:600; margin-bottom:12px; }
   .modal label { font-size:11px; color:var(--text-s); display:block; margin-bottom:4px; }
-  .modal input, .modal select { width:100%; padding:7px 9px; border:1px solid var(--border-h); border-radius:5px; font-size:12px; margin-bottom:12px; color:var(--text); }
-  .modal input:focus, .modal select:focus { outline:2px solid var(--azul); border-color:var(--azul); }
+  .modal input, .modal select, .modal textarea { width:100%; padding:7px 9px; border:1px solid var(--border-h); border-radius:5px; font-size:12px; margin-bottom:12px; color:var(--text); font-family:inherit; }
+  .modal textarea { resize:vertical; min-height:60px; }
+  .modal input:focus, .modal select:focus, .modal textarea:focus { outline:2px solid var(--azul); border-color:var(--azul); }
   .modal-btns { display:flex; gap:8px; justify-content:flex-end; margin-top:4px; }
   .btn-cancel { padding:6px 14px; border:1px solid var(--border-h); border-radius:5px; background:white; cursor:pointer; font-size:12px; color:var(--text-s); }
   .btn-ok { padding:6px 14px; border:none; border-radius:5px; background:#1a1a18; cursor:pointer; font-size:12px; color:white; }
   .btn-ok:hover { background:#333; }
 
   footer { text-align:center; font-size:10px; color:var(--text-xs); padding:10px 16px 6px; }
-  footer strong { color:var(--text-s); }
 
   @media print {
     header,footer { position:static; }
-    .toolbar,.col-controls,.row-controls,.cell-add-btns,.add-tag-btn,.del-tag { display:none !important; }
+    .toolbar,.status-bar,.col-controls,.row-controls,.cell-add-btns { display:none !important; }
     .container { padding:0; }
-    body { background:white; font-size:9px; }
+    body { background:white; }
     table { box-shadow:none; min-width:0; }
     td,th { padding:4px 5px; font-size:9px; }
     .gap-tag,.nav-tag { font-size:8px; }
@@ -134,26 +142,32 @@
 </header>
 
 <div class="toolbar">
-  <span class="tb-label">Insertar:</span>
   <button class="tb-btn" onclick="addColumn()">
-    <svg viewBox="0 0 24 24"><rect x="14" y="3" width="7" height="18" rx="1"/><path d="M3 12h7M6.5 8.5v7"/></svg>
-    Columna (etapa)
+    <svg viewBox="0 0 24 24"><rect x="14" y="3" width="7" height="18" rx="1"/><path d="M3 12h7M6.5 8.5v7"/></svg>Columna
   </button>
   <button class="tb-btn" onclick="openAddRowModal()">
-    <svg viewBox="0 0 24 24"><rect x="3" y="14" width="18" height="7" rx="1"/><path d="M12 3v7M8.5 6.5h7"/></svg>
-    Fila (actor / sección)
+    <svg viewBox="0 0 24 24"><rect x="3" y="14" width="18" height="7" rx="1"/><path d="M12 3v7M8.5 6.5h7"/></svg>Fila
   </button>
-  <div class="tb-sep"></div>
-  <span class="tb-label">Editar:</span>
   <button class="tb-btn" onclick="toggleEdit()">
     <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-    <span id="edit-label">Activar edición</span>
+    <span id="edit-label">Editar</span>
+  </button>
+  <div class="tb-sep"></div>
+  <button class="tb-btn success" onclick="openSaveModal()">
+    <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+    Guardar versión
   </button>
   <div class="tb-sep"></div>
   <button class="tb-btn" onclick="window.print()">
-    <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-    Imprimir
+    <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Imprimir
   </button>
+</div>
+
+<div class="status-bar">
+  <span id="fb-status"><span class="status-dot warn"></span>Conectando con Firebase...</span>
+  <span id="last-saved" style="color:var(--text-xs)"></span>
+  <span style="color:var(--text-xs);margin-left:auto">Versiones guardadas:</span>
+  <div class="version-list" id="version-list"><span style="color:var(--text-xs);font-size:10px">—</span></div>
 </div>
 
 <div class="container">
@@ -161,384 +175,271 @@
   <thead id="thead-row">
     <tr>
       <th class="col-actor-head"></th>
-      <th class="col-stage" data-col="0">
-        <span class="stage-title" contenteditable="false">1. Derivación e ingreso</span>
-        <span class="stage-sub" contenteditable="false">Puerta de entrada</span>
-        <div class="col-controls">
-          <button class="col-ctrl-btn" onclick="addColBefore(0)" title="Insertar antes">◀+</button>
-          <button class="col-ctrl-btn" onclick="addColAfter(0)" title="Insertar después">+▶</button>
-          <button class="col-ctrl-btn" onclick="deleteCol(0)" title="Eliminar">✕</button>
-        </div>
-      </th>
-      <th class="col-stage" data-col="1">
-        <span class="stage-title" contenteditable="false">2. Confirmación diagnóstica</span>
-        <span class="stage-sub" contenteditable="false">Imagen · biopsia · AP</span>
-        <div class="col-controls">
-          <button class="col-ctrl-btn" onclick="addColBefore(1)" title="Insertar antes">◀+</button>
-          <button class="col-ctrl-btn" onclick="addColAfter(1)" title="Insertar después">+▶</button>
-          <button class="col-ctrl-btn" onclick="deleteCol(1)" title="Eliminar">✕</button>
-        </div>
-      </th>
-      <th class="col-stage" data-col="2">
-        <span class="stage-title" contenteditable="false">3. Definición plan oncológico</span>
-        <span class="stage-sub" contenteditable="false">Comité · hitos GES</span>
-        <div class="col-controls">
-          <button class="col-ctrl-btn" onclick="addColBefore(2)" title="Insertar antes">◀+</button>
-          <button class="col-ctrl-btn" onclick="addColAfter(2)" title="Insertar después">+▶</button>
-          <button class="col-ctrl-btn" onclick="deleteCol(2)" title="Eliminar">✕</button>
-        </div>
-      </th>
-      <th class="col-stage" data-col="3">
-        <span class="stage-title" contenteditable="false">4. Tratamiento activo</span>
-        <span class="stage-sub" contenteditable="false">QMT · RDT · extrasistema</span>
-        <div class="col-controls">
-          <button class="col-ctrl-btn" onclick="addColBefore(3)" title="Insertar antes">◀+</button>
-          <button class="col-ctrl-btn" onclick="addColAfter(3)" title="Insertar después">+▶</button>
-          <button class="col-ctrl-btn" onclick="deleteCol(3)" title="Eliminar">✕</button>
-        </div>
-      </th>
-      <th class="col-stage" data-col="4">
-        <span class="stage-title" contenteditable="false">5. Seguimiento y control</span>
-        <span class="stage-sub" contenteditable="false">Monitoreo · contactabilidad</span>
-        <div class="col-controls">
-          <button class="col-ctrl-btn" onclick="addColBefore(4)" title="Insertar antes">◀+</button>
-          <button class="col-ctrl-btn" onclick="addColAfter(4)" title="Insertar después">+▶</button>
-          <button class="col-ctrl-btn" onclick="deleteCol(4)" title="Eliminar">✕</button>
-        </div>
-      </th>
-      <th class="col-stage" data-col="5">
-        <span class="stage-title" contenteditable="false">6. Alta y contrarreferencia</span>
-        <span class="stage-sub" contenteditable="false">Continuidad de cuidado</span>
-        <div class="col-controls">
-          <button class="col-ctrl-btn" onclick="addColBefore(5)" title="Insertar antes">◀+</button>
-          <button class="col-ctrl-btn" onclick="addColAfter(5)" title="Insertar después">+▶</button>
-          <button class="col-ctrl-btn" onclick="deleteCol(5)" title="Eliminar">✕</button>
-        </div>
-      </th>
+      <th class="col-stage" data-col="0"><span class="stage-title" contenteditable="false">1. Derivación e ingreso</span><span class="stage-sub" contenteditable="false">Puerta de entrada</span><div class="col-controls"><button class="col-ctrl-btn" onclick="addColBefore(0)">◀+</button><button class="col-ctrl-btn" onclick="addColAfter(0)">+▶</button><button class="col-ctrl-btn" onclick="deleteCol(0)">✕</button></div></th>
+      <th class="col-stage" data-col="1"><span class="stage-title" contenteditable="false">2. Confirmación diagnóstica</span><span class="stage-sub" contenteditable="false">Imagen · biopsia · AP</span><div class="col-controls"><button class="col-ctrl-btn" onclick="addColBefore(1)">◀+</button><button class="col-ctrl-btn" onclick="addColAfter(1)">+▶</button><button class="col-ctrl-btn" onclick="deleteCol(1)">✕</button></div></th>
+      <th class="col-stage" data-col="2"><span class="stage-title" contenteditable="false">3. Definición plan oncológico</span><span class="stage-sub" contenteditable="false">Comité · hitos GES</span><div class="col-controls"><button class="col-ctrl-btn" onclick="addColBefore(2)">◀+</button><button class="col-ctrl-btn" onclick="addColAfter(2)">+▶</button><button class="col-ctrl-btn" onclick="deleteCol(2)">✕</button></div></th>
+      <th class="col-stage" data-col="3"><span class="stage-title" contenteditable="false">4. Tratamiento activo</span><span class="stage-sub" contenteditable="false">QMT · RDT · extrasistema</span><div class="col-controls"><button class="col-ctrl-btn" onclick="addColBefore(3)">◀+</button><button class="col-ctrl-btn" onclick="addColAfter(3)">+▶</button><button class="col-ctrl-btn" onclick="deleteCol(3)">✕</button></div></th>
+      <th class="col-stage" data-col="4"><span class="stage-title" contenteditable="false">5. Seguimiento y control</span><span class="stage-sub" contenteditable="false">Monitoreo · contactabilidad</span><div class="col-controls"><button class="col-ctrl-btn" onclick="addColBefore(4)">◀+</button><button class="col-ctrl-btn" onclick="addColAfter(4)">+▶</button><button class="col-ctrl-btn" onclick="deleteCol(4)">✕</button></div></th>
+      <th class="col-stage" data-col="5"><span class="stage-title" contenteditable="false">6. Alta y contrarreferencia</span><span class="stage-sub" contenteditable="false">Continuidad de cuidado</span><div class="col-controls"><button class="col-ctrl-btn" onclick="addColBefore(5)">◀+</button><button class="col-ctrl-btn" onclick="addColAfter(5)">+▶</button><button class="col-ctrl-btn" onclick="deleteCol(5)">✕</button></div></th>
     </tr>
   </thead>
   <tbody id="tbody">
-
-    <tr class="section-sep" data-section="paciente">
-      <td colspan="100" class="sec-paciente">Experiencia del paciente
-        <div class="row-controls">
-          <button class="row-ctrl-btn" onclick="addRowAfterSection(this)">+ fila abajo</button>
-          <button class="row-ctrl-btn del" onclick="deleteSection(this)">✕ sección</button>
-        </div>
-      </td>
-    </tr>
+    <tr class="section-sep" data-section="paciente"><td colspan="100" class="sec-paciente">Experiencia del paciente<div class="row-controls"><button class="row-ctrl-btn" onclick="addRowAfterSection(this)">+ fila</button><button class="row-ctrl-btn del" onclick="deleteSection(this)">✕</button></div></td></tr>
     <tr data-section="paciente">
       <td class="actor-cell" contenteditable="false">Paciente / familia</td>
-      <td><div class="cell-wrap">
-        <div class="cell-main" contenteditable="false">Ingresa por urgencia, CESFAM, extrasistema o ambulatorio</div>
-        <span class="gap-tag" contenteditable="false">⚑ Vías diversas sin flujo unificado<span class="del-tag" onclick="removeTag(this)">✕</span></span>
-        <div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div>
-      </div></td>
+      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Ingresa por urgencia, CESFAM, extrasistema o ambulatorio</div><span class="gap-tag" contenteditable="false">⚑ Vías diversas sin flujo unificado<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
       <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Realiza exámenes de imagen y biopsia; aguarda resultados</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
       <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Participa en comité; recibe y comprende plan de tratamiento</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
       <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Asiste a QMT/RDT; gestiona traslados y barreras de acceso</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
       <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Controles periódicos; autocuidado y educación en salud</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap">
-        <div class="cell-main" contenteditable="false">Recibe indicaciones al alta; retorna a APS</div>
-        <span class="gap-tag" contenteditable="false">⚑ Brecha de información al momento del alta<span class="del-tag" onclick="removeTag(this)">✕</span></span>
-        <div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div>
-      </div></td>
+      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Recibe indicaciones al alta; retorna a APS</div><span class="gap-tag" contenteditable="false">⚑ Brecha de información al momento del alta<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
     </tr>
-
-    <tr class="section-sep" data-section="frontstage">
-      <td colspan="100" class="sec-frontstage">Frontstage — Gestora de casos CC
-        <div class="row-controls">
-          <button class="row-ctrl-btn" onclick="addRowAfterSection(this)">+ fila abajo</button>
-          <button class="row-ctrl-btn del" onclick="deleteSection(this)">✕ sección</button>
-        </div>
-      </td>
-    </tr>
+    <tr class="section-sep" data-section="frontstage"><td colspan="100" class="sec-frontstage">Frontstage — Gestora de casos CC<div class="row-controls"><button class="row-ctrl-btn" onclick="addRowAfterSection(this)">+ fila</button><button class="row-ctrl-btn del" onclick="deleteSection(this)">✕</button></div></td></tr>
     <tr data-section="frontstage">
       <td class="actor-cell" contenteditable="false">Gestora CC</td>
-      <td><div class="cell-wrap">
-        <div class="cell-main" contenteditable="false">Apertura de caso GES/No GES; asignación interna</div>
-        <span class="nav-tag" contenteditable="false">↗ NAV: contacto inicial y vinculación<span class="del-tag" onclick="removeTag(this)">✕</span></span>
-        <div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div>
-      </div></td>
-      <td><div class="cell-wrap">
-        <div class="cell-main" contenteditable="false">Coordina cupos imagenología (5 diarios); gestiona biopsia</div>
-        <span class="gap-tag" contenteditable="false">⚑ Demora informes &gt;1 mes<span class="del-tag" onclick="removeTag(this)">✕</span></span>
-        <div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div>
-      </div></td>
+      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Apertura de caso GES/No GES; asignación interna</div><span class="nav-tag" contenteditable="false">↗ NAV: contacto inicial y vinculación<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
+      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Coordina cupos imagenología (5 diarios); gestiona biopsia</div><span class="gap-tag" contenteditable="false">⚑ Demora informes &gt;1 mes<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
       <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Prepara antecedentes para comité; registra hito QMT/RDT</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap">
-        <div class="cell-main" contenteditable="false">Seguimiento clínico; contactabilidad; educación en salud</div>
-        <span class="gap-tag" contenteditable="false">⚑ 600–1.200 casos por gestora<span class="del-tag" onclick="removeTag(this)">✕</span></span>
-        <span class="nav-tag" contenteditable="false">↗ NAV: gestión NSP, preparación cita, post-atención<span class="del-tag" onclick="removeTag(this)">✕</span></span>
-        <div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div>
-      </div></td>
-      <td><div class="cell-wrap">
-        <div class="cell-main" contenteditable="false">Monitoreo activo; detección de desviaciones clínicas</div>
-        <span class="nav-tag" contenteditable="false">↗ NAV: contacto frecuencia alta/media<span class="del-tag" onclick="removeTag(this)">✕</span></span>
-        <div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div>
-      </div></td>
-      <td><div class="cell-wrap">
-        <div class="cell-main" contenteditable="false">Contrarreferencia; cierre garantía GES</div>
-        <span class="gap-tag" contenteditable="false">⚑ Brecha de coordinación con gestores APS<span class="del-tag" onclick="removeTag(this)">✕</span></span>
-        <div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div>
-      </div></td>
+      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Seguimiento clínico; contactabilidad; educación en salud</div><span class="gap-tag" contenteditable="false">⚑ 600–1.200 casos por gestora<span class="del-tag" onclick="removeTag(this)">✕</span></span><span class="nav-tag" contenteditable="false">↗ NAV: gestión NSP, preparación cita, post-atención<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
+      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Monitoreo activo; detección de desviaciones clínicas</div><span class="nav-tag" contenteditable="false">↗ NAV: contacto frecuencia alta/media<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
+      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Contrarreferencia; cierre garantía GES</div><span class="gap-tag" contenteditable="false">⚑ Brecha coordinación con gestores APS<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
     </tr>
-
-    <tr class="section-sep" data-section="bkclin">
-      <td colspan="100" class="sec-bk-clin">Backstage clínico — decisiones y criterios
-        <div class="row-controls">
-          <button class="row-ctrl-btn" onclick="addRowAfterSection(this)">+ fila abajo</button>
-          <button class="row-ctrl-btn del" onclick="deleteSection(this)">✕ sección</button>
-        </div>
-      </td>
-    </tr>
+    <tr class="section-sep" data-section="bkclin"><td colspan="100" class="sec-bk-clin">Backstage clínico — decisiones y criterios<div class="row-controls"><button class="row-ctrl-btn" onclick="addRowAfterSection(this)">+ fila</button><button class="row-ctrl-btn del" onclick="deleteSection(this)">✕</button></div></td></tr>
     <tr data-section="bkclin">
       <td class="actor-cell" contenteditable="false">Enf. coordin. / médico tratante</td>
       <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Triage por vía de ingreso; priorización clínica inicial</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap">
-        <div class="cell-main" contenteditable="false">Revisión e interpretación de resultados; decisión de derivación a comité</div>
-        <span class="gap-tag" contenteditable="false">⚑ Integración Anatomía Patológica a ficha clínica<span class="del-tag" onclick="removeTag(this)">✕</span></span>
-        <div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div>
-      </div></td>
-      <td><div class="cell-wrap">
-        <div class="cell-main" contenteditable="false">Comité oncológico: definición plan; indicación hito QMT/RDT</div>
-        <span class="gap-tag" contenteditable="false">⚑ Hito marcado en indicación, no en inicio efectivo (+4 días / posible rechazo)<span class="del-tag" onclick="removeTag(this)">✕</span></span>
-        <div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div>
-      </div></td>
-      <td><div class="cell-wrap">
-        <div class="cell-main" contenteditable="false">Decisiones de ajuste de tratamiento; manejo de efectos adversos</div>
-        <span class="gap-tag" contenteditable="false">⚑ Sin retroalimentación clínica de pacientes en radioterapia<span class="del-tag" onclick="removeTag(this)">✕</span></span>
-        <div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div>
-      </div></td>
+      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Revisión e interpretación de resultados; decisión de derivación a comité</div><span class="gap-tag" contenteditable="false">⚑ Integración Anatomía Patológica a ficha clínica<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
+      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Comité oncológico: definición plan; indicación hito QMT/RDT</div><span class="gap-tag" contenteditable="false">⚑ Hito marcado en indicación, no en inicio efectivo (+4 días / posible rechazo)<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
+      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Decisiones de ajuste de tratamiento; manejo de efectos adversos</div><span class="gap-tag" contenteditable="false">⚑ Sin retroalimentación clínica de pacientes en radioterapia<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
       <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Evaluación de respuesta; criterio de alta o continuidad</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
       <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Criterio médico de alta; instrucciones clínicas para APS</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
     </tr>
-
-    <tr class="section-sep" data-section="bkadmin">
-      <td colspan="100" class="sec-bk-admin">Backstage administrativo — registro y coordinación operativa
-        <div class="row-controls">
-          <button class="row-ctrl-btn" onclick="addRowAfterSection(this)">+ fila abajo</button>
-          <button class="row-ctrl-btn del" onclick="deleteSection(this)">✕ sección</button>
-        </div>
-      </td>
-    </tr>
+    <tr class="section-sep" data-section="bkadmin"><td colspan="100" class="sec-bk-admin">Backstage administrativo — registro y coordinación operativa<div class="row-controls"><button class="row-ctrl-btn" onclick="addRowAfterSection(this)">+ fila</button><button class="row-ctrl-btn del" onclick="deleteSection(this)">✕</button></div></td></tr>
     <tr data-section="bkadmin">
       <td class="actor-cell" contenteditable="false">UGE / admin. CC</td>
       <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Admisión; registro en sistemas; asignación de ficha</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
       <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Gestión de agenda imagenología; trazabilidad de cupos</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap">
-        <div class="cell-main" contenteditable="false">Registro de hitos GES; coordinación extrasistema</div>
-        <span class="gap-tag" contenteditable="false">⚑ Extrasistema sin acceso a ficha clínica HPM<span class="del-tag" onclick="removeTag(this)">✕</span></span>
-        <div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div>
-      </div></td>
-      <td><div class="cell-wrap">
-        <div class="cell-main" contenteditable="false">Carga en SIGO; actualización planillas Excel; gestión garantías</div>
-        <span class="gap-tag" contenteditable="false">⚑ SIGO: 45 min/paciente; sin carga masiva; 4ª plataforma MINSAL<span class="del-tag" onclick="removeTag(this)">✕</span></span>
-        <span class="gap-tag" contenteditable="false">⚑ Información distribuida en múltiples sistemas<span class="del-tag" onclick="removeTag(this)">✕</span></span>
-        <div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div>
-      </div></td>
+      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Registro de hitos GES; coordinación extrasistema</div><span class="gap-tag" contenteditable="false">⚑ Extrasistema sin acceso a ficha clínica HPM<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
+      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Carga en SIGO; actualización planillas Excel; gestión garantías</div><span class="gap-tag" contenteditable="false">⚑ SIGO: 45 min/paciente; sin carga masiva; 4ª plataforma MINSAL<span class="del-tag" onclick="removeTag(this)">✕</span></span><span class="gap-tag" contenteditable="false">⚑ Información distribuida en múltiples sistemas<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
       <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Mantención planillas Excel; seguimiento Plan Anual de Actividades</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
       <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Documentación alta; reporte REM; cierre administrativo</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
     </tr>
-
-    <tr class="section-sep" data-section="nav">
-      <td colspan="100" class="sec-nav">Navegadores en Red — Unidad de Gestión Territorial (UGT)
-        <div class="row-controls">
-          <button class="row-ctrl-btn" onclick="addRowAfterSection(this)">+ fila abajo</button>
-          <button class="row-ctrl-btn del" onclick="deleteSection(this)">✕ sección</button>
-        </div>
-      </td>
-    </tr>
+    <tr class="section-sep" data-section="nav"><td colspan="100" class="sec-nav">Navegadores en Red — Unidad de Gestión Territorial (UGT)<div class="row-controls"><button class="row-ctrl-btn" onclick="addRowAfterSection(this)">+ fila</button><button class="row-ctrl-btn del" onclick="deleteSection(this)">✕</button></div></td></tr>
     <tr data-section="nav">
       <td class="actor-cell" contenteditable="false">Equipo NAV</td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Vinculación inicial; actualización contactos; detección de barreras</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
+      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Vinculación inicial; actualización contactos; detección barreras</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
       <td><div class="cell-wrap"><div class="cell-main empty" contenteditable="false">—</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
       <td><div class="cell-wrap"><div class="cell-main empty" contenteditable="false">—</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap">
-        <div class="cell-main" contenteditable="false">Preparación preconsulta; gestión NSP; post-atención; detección de barreras</div>
-        <span class="nav-tag" contenteditable="false">↗ Operativiza acceso — no decide prioridad clínica<span class="del-tag" onclick="removeTag(this)">✕</span></span>
-        <div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div>
-      </div></td>
+      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Preparación preconsulta; gestión NSP; post-atención; detección barreras</div><span class="nav-tag" contenteditable="false">↗ Operativiza acceso — no decide prioridad clínica<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
       <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Contacto frecuencia alta/media; acompañamiento en espera entre ciclos</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
       <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Coordinación territorial al alta; derivación a APS con información</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
     </tr>
-
-    <tr class="section-sep" data-section="aps">
-      <td colspan="100" class="sec-aps">Red asistencial — APS / CESFAM
-        <div class="row-controls">
-          <button class="row-ctrl-btn" onclick="addRowAfterSection(this)">+ fila abajo</button>
-          <button class="row-ctrl-btn del" onclick="deleteSection(this)">✕ sección</button>
-        </div>
-      </td>
-    </tr>
+    <tr class="section-sep" data-section="aps"><td colspan="100" class="sec-aps">Red asistencial — APS / CESFAM<div class="row-controls"><button class="row-ctrl-btn" onclick="addRowAfterSection(this)">+ fila</button><button class="row-ctrl-btn del" onclick="deleteSection(this)">✕</button></div></td></tr>
     <tr data-section="aps">
       <td class="actor-cell" contenteditable="false">Gestores APS</td>
       <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Derivación oncológica; interconsulta a HPM</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
       <td><div class="cell-wrap"><div class="cell-main empty" contenteditable="false">—</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
       <td><div class="cell-wrap"><div class="cell-main empty" contenteditable="false">—</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
       <td><div class="cell-wrap"><div class="cell-main empty" contenteditable="false">—</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap">
-        <div class="cell-main" contenteditable="false">Recibe información sobre casos activos en su territorio</div>
-        <span class="gap-tag" contenteditable="false">⚑ Sin claridad de casos activos por comuna<span class="del-tag" onclick="removeTag(this)">✕</span></span>
-        <div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div>
-      </div></td>
-      <td><div class="cell-wrap">
-        <div class="cell-main" contenteditable="false">Recibe contrarreferencia; continúa seguimiento local</div>
-        <span class="gap-tag" contenteditable="false">⚑ Roles y flujos CC ↔ APS no definidos<span class="del-tag" onclick="removeTag(this)">✕</span></span>
-        <div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div>
-      </div></td>
+      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Recibe información sobre casos activos en su territorio</div><span class="gap-tag" contenteditable="false">⚑ Sin claridad de casos activos por comuna<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
+      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Recibe contrarreferencia; continúa seguimiento local</div><span class="gap-tag" contenteditable="false">⚑ Roles y flujos CC ↔ APS no definidos<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
     </tr>
-
-    <tr class="section-sep" data-section="sistemas">
-      <td colspan="100" class="sec-sistemas">Soporte — sistemas e información
-        <div class="row-controls">
-          <button class="row-ctrl-btn" onclick="addRowAfterSection(this)">+ fila abajo</button>
-          <button class="row-ctrl-btn del" onclick="deleteSection(this)">✕ sección</button>
-        </div>
-      </td>
-    </tr>
+    <tr class="section-sep" data-section="sistemas"><td colspan="100" class="sec-sistemas">Soporte — sistemas e información<div class="row-controls"><button class="row-ctrl-btn" onclick="addRowAfterSection(this)">+ fila</button><button class="row-ctrl-btn del" onclick="deleteSection(this)">✕</button></div></td></tr>
     <tr data-section="sistemas">
       <td class="actor-cell" contenteditable="false">Sistemas / registros</td>
       <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Ficha clínica HPM; admisión</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap">
-        <div class="cell-main" contenteditable="false">RIS imagenología; Anatomía Patológica</div>
-        <span class="gap-tag" contenteditable="false">⚑ Sin integración a ficha clínica<span class="del-tag" onclick="removeTag(this)">✕</span></span>
-        <div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div>
-      </div></td>
+      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">RIS imagenología; Anatomía Patológica</div><span class="gap-tag" contenteditable="false">⚑ Sin integración a ficha clínica<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
       <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Ficha clínica; registro comité oncológico</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap">
-        <div class="cell-main" contenteditable="false">SIGO · Excel CC (nube propia) · ficha clínica HPM</div>
-        <span class="gap-tag" contenteditable="false">⚑ Fragmentación de información entre sistemas<span class="del-tag" onclick="removeTag(this)">✕</span></span>
-        <div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div>
-      </div></td>
+      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">SIGO · Excel CC (nube propia) · ficha clínica HPM</div><span class="gap-tag" contenteditable="false">⚑ Fragmentación de información entre sistemas<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
       <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Excel CC; SIGO; ficha clínica HPM</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
       <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Contrarreferencia en ficha; REM nivel central</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
     </tr>
-
   </tbody>
 </table>
 </div>
 
-<footer>
-  <strong>Hospital Puerto Montt · Servicio de Salud del Reloncaví</strong> &nbsp;·&nbsp;
-  Unidad de Gestión Territorial / Navegadores en Red &nbsp;·&nbsp;
-  Versión preliminar para taller participativo — junio 2026
-</footer>
+<footer><strong>Hospital Puerto Montt · Servicio de Salud del Reloncaví</strong> · Unidad de Gestión Territorial / Navegadores en Red · Versión preliminar taller participativo, junio 2026</footer>
 
-<!-- Modal agregar fila -->
+<!-- Modales -->
+<div id="modal-save" class="modal-overlay" style="display:none">
+  <div class="modal">
+    <h3>Guardar versión</h3>
+    <label>Nombre de esta versión</label>
+    <input type="text" id="save-name" placeholder="Ej: Taller 18 junio — post discusión">
+    <label>Notas (opcional)</label>
+    <textarea id="save-notes" placeholder="Ej: Se agregaron brechas en columna 3 según gestoras"></textarea>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModals()">Cancelar</button>
+      <button class="btn-ok" onclick="confirmSave()">Guardar</button>
+    </div>
+  </div>
+</div>
 <div id="modal-row" class="modal-overlay" style="display:none">
   <div class="modal">
     <h3>Nueva fila</h3>
     <label>Nombre del actor</label>
-    <input type="text" id="new-actor" placeholder="Ej: Farmacia / Unidad de Imágenes">
-    <label>Sección a la que pertenece</label>
-    <select id="new-section">
-      <option value="">— elegir sección —</option>
-    </select>
+    <input type="text" id="new-actor" placeholder="Ej: Farmacia / Imágenes">
+    <label>Sección</label>
+    <select id="new-section"></select>
     <div class="modal-btns">
-      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="btn-cancel" onclick="closeModals()">Cancelar</button>
       <button class="btn-ok" onclick="confirmAddRow()">Agregar</button>
     </div>
   </div>
 </div>
-
-<!-- Modal agregar columna -->
 <div id="modal-col" class="modal-overlay" style="display:none">
   <div class="modal">
     <h3 id="modal-col-title">Nueva etapa</h3>
-    <label>Título de la etapa</label>
+    <label>Título</label>
     <input type="text" id="new-col-title" placeholder="Ej: 7. Rehabilitación">
     <label>Subtítulo (opcional)</label>
     <input type="text" id="new-col-sub" placeholder="Ej: Kinesio · TENS">
     <div class="modal-btns">
-      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="btn-cancel" onclick="closeModals()">Cancelar</button>
       <button class="btn-ok" onclick="confirmAddCol()">Agregar</button>
     </div>
   </div>
 </div>
 
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, doc, getDoc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDo-Jzbu4ZyqUeg-cwfvS76wgI-CR6pjIk",
+  authDomain: "mapa-de-servicio-oncologia.firebaseapp.com",
+  projectId: "mapa-de-servicio-oncologia",
+  storageBucket: "mapa-de-servicio-oncologia.firebasestorage.app",
+  messagingSenderId: "419300391593",
+  appId: "1:419300391593:web:e7be9250ac8df29869c7b8"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+function setStatus(type, msg) {
+  const el = document.getElementById('fb-status');
+  const dots = { ok:'ok', warn:'warn', err:'err' };
+  el.innerHTML = `<span class="status-dot ${dots[type]}"></span>${msg}`;
+}
+
+async function loadVersions() {
+  try {
+    const q = query(collection(db, 'versiones'), orderBy('ts', 'desc'));
+    const snap = await getDocs(q);
+    const list = document.getElementById('version-list');
+    list.innerHTML = '';
+    if (snap.empty) { list.innerHTML = '<span style="color:var(--text-xs);font-size:10px">Sin versiones guardadas</span>'; return; }
+    snap.forEach(d => {
+      const data = d.data();
+      const chip = document.createElement('button');
+      chip.className = 'ver-chip';
+      chip.title = data.notes || '';
+      const dt = data.ts?.toDate ? data.ts.toDate() : new Date();
+      chip.textContent = data.name || dt.toLocaleDateString('es-CL');
+      chip.onclick = () => restoreVersion(d.id, chip);
+      list.appendChild(chip);
+    });
+    setStatus('ok', 'Firebase conectado');
+  } catch(e) {
+    setStatus('err', 'Error al cargar versiones: ' + e.message);
+  }
+}
+
+async function restoreVersion(id, chip) {
+  if (!confirm('¿Cargar esta versión? Los cambios no guardados se perderán.')) return;
+  try {
+    const snap = await getDoc(doc(db, 'versiones', id));
+    if (!snap.exists()) return;
+    document.getElementById('main-table').outerHTML = snap.data().html;
+    document.querySelectorAll('.ver-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    document.getElementById('last-saved').textContent = 'Versión cargada: ' + (snap.data().name || '');
+  } catch(e) {
+    alert('Error al restaurar: ' + e.message);
+  }
+}
+
+window._saveToFirebase = async function(name, notes) {
+  try {
+    setStatus('warn', 'Guardando...');
+    const html = document.getElementById('main-table').outerHTML;
+    await addDoc(collection(db, 'versiones'), {
+      name, notes, html,
+      ts: new Date()
+    });
+    const now = new Date().toLocaleString('es-CL');
+    document.getElementById('last-saved').textContent = 'Último guardado: ' + now;
+    setStatus('ok', 'Firebase conectado');
+    await loadVersions();
+  } catch(e) {
+    setStatus('err', 'Error al guardar: ' + e.message);
+    alert('Error al guardar: ' + e.message);
+  }
+};
+
+loadVersions();
+</script>
+
 <script>
 let editMode = false;
 let pendingColAction = null;
-let pendingSection = null;
 
 function toggleEdit() {
   editMode = !editMode;
-  document.getElementById('edit-label').textContent = editMode ? 'Desactivar edición' : 'Activar edición';
+  document.getElementById('edit-label').textContent = editMode ? 'Desactivar edición' : 'Editar';
   const ce = editMode ? 'true' : 'false';
-  document.querySelectorAll('.cell-main, .gap-tag, .nav-tag').forEach(el => {
-    el.contentEditable = ce;
-  });
-  document.querySelectorAll('.actor-cell').forEach(el => {
-    el.contentEditable = ce;
-  });
-  document.querySelectorAll('.col-stage .stage-title, .col-stage .stage-sub').forEach(el => {
-    el.contentEditable = ce;
-  });
+  document.querySelectorAll('.cell-main,.gap-tag,.nav-tag,.actor-cell').forEach(el => el.contentEditable = ce);
+  document.querySelectorAll('.col-stage .stage-title,.col-stage .stage-sub').forEach(el => el.contentEditable = ce);
   document.querySelectorAll('tr.section-sep td').forEach(td => {
-    const txt = td.childNodes[0];
-    if (txt && txt.nodeType === 3) {
-      if (editMode) {
-        const span = document.createElement('span');
-        span.contentEditable = 'true';
-        span.className = 'section-title-edit';
-        span.textContent = txt.textContent.trim();
-        td.insertBefore(span, td.firstChild);
-        txt.remove();
+    if (editMode) {
+      const t = td.childNodes[0];
+      if (t && t.nodeType === 3) {
+        const s = document.createElement('span');
+        s.contentEditable = 'true'; s.className = 'sec-edit';
+        s.textContent = t.textContent.trim();
+        td.insertBefore(s, td.firstChild); t.remove();
       }
-    } else if (!editMode) {
-      const span = td.querySelector('.section-title-edit');
-      if (span) {
-        const t = document.createTextNode(span.textContent + ' ');
-        td.insertBefore(t, td.firstChild);
-        span.remove();
-      }
+    } else {
+      const s = td.querySelector('.sec-edit');
+      if (s) { td.insertBefore(document.createTextNode(s.textContent + ' '), td.firstChild); s.remove(); }
     }
   });
 }
 
-function getColCount() {
-  const ths = document.querySelectorAll('#thead-row tr th.col-stage');
-  return ths.length;
+function openSaveModal() {
+  document.getElementById('save-name').value = '';
+  document.getElementById('save-notes').value = '';
+  document.getElementById('modal-save').style.display = 'flex';
+  setTimeout(() => document.getElementById('save-name').focus(), 50);
 }
 
+function confirmSave() {
+  const name = document.getElementById('save-name').value.trim() || new Date().toLocaleString('es-CL');
+  const notes = document.getElementById('save-notes').value.trim();
+  closeModals();
+  window._saveToFirebase(name, notes);
+}
+
+function getColCount() { return document.querySelectorAll('#thead-row tr th.col-stage').length; }
+
 function makeEmptyCell() {
-  return `<div class="cell-wrap"><div class="cell-main empty" contenteditable="${editMode ? 'true' : 'false'}">—</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div>`;
+  return `<div class="cell-wrap"><div class="cell-main empty" contenteditable="${editMode?'true':'false'}">—</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div>`;
 }
 
 function updateColIndices() {
   document.querySelectorAll('#thead-row tr th.col-stage').forEach((th, i) => {
     th.dataset.col = i;
-    const btns = th.querySelectorAll('.col-ctrl-btn');
-    if (btns.length >= 3) {
-      btns[0].setAttribute('onclick', `addColBefore(${i})`);
-      btns[1].setAttribute('onclick', `addColAfter(${i})`);
-      btns[2].setAttribute('onclick', `deleteCol(${i})`);
-    }
+    const b = th.querySelectorAll('.col-ctrl-btn');
+    if (b.length >= 3) { b[0].setAttribute('onclick',`addColBefore(${i})`); b[1].setAttribute('onclick',`addColAfter(${i})`); b[2].setAttribute('onclick',`deleteCol(${i})`); }
   });
 }
 
-function addColumn() {
-  pendingColAction = { type: 'append' };
-  document.getElementById('modal-col-title').textContent = 'Nueva etapa (al final)';
-  document.getElementById('new-col-title').value = '';
-  document.getElementById('new-col-sub').value = '';
-  document.getElementById('modal-col').style.display = 'flex';
-  setTimeout(() => document.getElementById('new-col-title').focus(), 50);
-}
-
-function addColBefore(idx) {
-  pendingColAction = { type: 'before', idx };
-  document.getElementById('modal-col-title').textContent = `Nueva etapa (antes de columna ${idx + 1})`;
-  document.getElementById('new-col-title').value = '';
-  document.getElementById('new-col-sub').value = '';
-  document.getElementById('modal-col').style.display = 'flex';
-  setTimeout(() => document.getElementById('new-col-title').focus(), 50);
-}
-
-function addColAfter(idx) {
-  pendingColAction = { type: 'after', idx };
-  document.getElementById('modal-col-title').textContent = `Nueva etapa (después de columna ${idx + 1})`;
+function addColumn() { pendingColAction={type:'append'}; showColModal('Nueva etapa (al final)'); }
+function addColBefore(i) { pendingColAction={type:'before',idx:i}; showColModal(`Nueva etapa (antes de col. ${i+1})`); }
+function addColAfter(i) { pendingColAction={type:'after',idx:i}; showColModal(`Nueva etapa (después de col. ${i+1})`); }
+function showColModal(title) {
+  document.getElementById('modal-col-title').textContent = title;
   document.getElementById('new-col-title').value = '';
   document.getElementById('new-col-sub').value = '';
   document.getElementById('modal-col').style.display = 'flex';
@@ -546,56 +447,30 @@ function addColAfter(idx) {
 }
 
 function confirmAddCol() {
-  const title = document.getElementById('new-col-title').value.trim();
-  if (!title) return;
+  const title = document.getElementById('new-col-title').value.trim(); if (!title) return;
   const sub = document.getElementById('new-col-sub').value.trim();
-  const n = getColCount();
-
-  const newTh = document.createElement('th');
-  newTh.className = 'col-stage';
-  newTh.innerHTML = `<span class="stage-title" contenteditable="false">${title}</span>${sub ? `<span class="stage-sub" contenteditable="${editMode ? 'true' : 'false'}">${sub}</span>` : ''}<div class="col-controls"><button class="col-ctrl-btn" title="Insertar antes">◀+</button><button class="col-ctrl-btn" title="Insertar después">+▶</button><button class="col-ctrl-btn" title="Eliminar">✕</button></div>`;
-
-  const headerRow = document.querySelector('#thead-row tr');
-  const ths = headerRow.querySelectorAll('th.col-stage');
-
-  if (pendingColAction.type === 'append') {
-    headerRow.appendChild(newTh);
-  } else if (pendingColAction.type === 'before') {
-    headerRow.insertBefore(newTh, ths[pendingColAction.idx]);
-  } else {
-    const ref = ths[pendingColAction.idx].nextSibling;
-    headerRow.insertBefore(newTh, ref);
-  }
-
-  // Add cell to every data row
+  const newTh = document.createElement('th'); newTh.className = 'col-stage';
+  newTh.innerHTML = `<span class="stage-title" contenteditable="false">${title}</span>${sub?`<span class="stage-sub" contenteditable="false">${sub}</span>`:''}<div class="col-controls"><button class="col-ctrl-btn">◀+</button><button class="col-ctrl-btn">+▶</button><button class="col-ctrl-btn">✕</button></div>`;
+  const hr = document.querySelector('#thead-row tr');
+  const ths = hr.querySelectorAll('th.col-stage');
+  if (pendingColAction.type==='append') hr.appendChild(newTh);
+  else if (pendingColAction.type==='before') hr.insertBefore(newTh, ths[pendingColAction.idx]);
+  else hr.insertBefore(newTh, ths[pendingColAction.idx].nextSibling);
   document.querySelectorAll('#tbody tr:not(.section-sep)').forEach(row => {
     const tds = row.querySelectorAll('td:not(.actor-cell)');
-    const newTd = document.createElement('td');
-    newTd.innerHTML = makeEmptyCell();
-    if (pendingColAction.type === 'append') {
-      row.appendChild(newTd);
-    } else if (pendingColAction.type === 'before') {
-      row.insertBefore(newTd, tds[pendingColAction.idx]);
-    } else {
-      const ref = tds[pendingColAction.idx] ? tds[pendingColAction.idx].nextSibling : null;
-      row.insertBefore(newTd, ref);
-    }
+    const td = document.createElement('td'); td.innerHTML = makeEmptyCell();
+    if (pendingColAction.type==='append') row.appendChild(td);
+    else if (pendingColAction.type==='before') row.insertBefore(td, tds[pendingColAction.idx]);
+    else row.insertBefore(td, tds[pendingColAction.idx]?.nextSibling||null);
   });
-
-  updateColIndices();
-  closeModal();
+  updateColIndices(); closeModals();
 }
 
-function deleteCol(idx) {
-  if (getColCount() <= 1) return alert('Debe quedar al menos una columna.');
-  if (!confirm('¿Eliminar esta columna y su contenido?')) return;
-  const headerRow = document.querySelector('#thead-row tr');
-  const ths = headerRow.querySelectorAll('th.col-stage');
-  ths[idx].remove();
-  document.querySelectorAll('#tbody tr:not(.section-sep)').forEach(row => {
-    const tds = row.querySelectorAll('td:not(.actor-cell)');
-    if (tds[idx]) tds[idx].remove();
-  });
+function deleteCol(i) {
+  if (getColCount()<=1) return alert('Debe quedar al menos una columna.');
+  if (!confirm('¿Eliminar esta columna?')) return;
+  document.querySelectorAll('#thead-row tr th.col-stage')[i].remove();
+  document.querySelectorAll('#tbody tr:not(.section-sep)').forEach(row => { const tds=row.querySelectorAll('td:not(.actor-cell)'); if(tds[i]) tds[i].remove(); });
   updateColIndices();
 }
 
@@ -604,145 +479,79 @@ function openAddRowModal() {
   sel.innerHTML = '<option value="">— elegir sección —</option>';
   document.querySelectorAll('#tbody tr.section-sep').forEach(row => {
     const td = row.querySelector('td');
-    const label = td.childNodes[0].textContent?.trim() || td.querySelector('.section-title-edit')?.textContent?.trim() || 'Sección';
-    const sec = row.dataset.section;
-    const opt = document.createElement('option');
-    opt.value = sec;
-    opt.textContent = label;
+    const label = (td.querySelector('.sec-edit')?.textContent || td.childNodes[0]?.textContent || '').trim();
+    const opt = document.createElement('option'); opt.value = row.dataset.section; opt.textContent = label;
     sel.appendChild(opt);
   });
-  const newOpt = document.createElement('option');
-  newOpt.value = '__new__';
-  newOpt.textContent = '+ Nueva sección';
-  sel.appendChild(newOpt);
+  const o = document.createElement('option'); o.value='__new__'; o.textContent='+ Nueva sección'; sel.appendChild(o);
   document.getElementById('new-actor').value = '';
   document.getElementById('modal-row').style.display = 'flex';
   setTimeout(() => document.getElementById('new-actor').focus(), 50);
 }
 
 function confirmAddRow() {
-  const actor = document.getElementById('new-actor').value.trim();
-  const section = document.getElementById('new-section').value;
-  if (!actor) return;
-
-  const n = getColCount();
-  if (section === '__new__') {
-    addNewSection(actor);
-  } else if (section) {
-    addRowToSection(section, actor, n);
-  } else {
-    alert('Selecciona una sección.');
-    return;
-  }
-  closeModal();
+  const actor = document.getElementById('new-actor').value.trim(); if (!actor) return;
+  const section = document.getElementById('new-section').value; if (!section) { alert('Elige una sección.'); return; }
+  if (section === '__new__') addNewSection(actor);
+  else addRowToSection(section, actor);
+  closeModals();
 }
 
-function addRowToSection(sectionKey, actor, n) {
-  const allRows = Array.from(document.querySelectorAll('#tbody tr'));
-  let lastRowOfSection = null;
-  let inSection = false;
-  for (const row of allRows) {
-    if (row.classList.contains('section-sep') && row.dataset.section === sectionKey) { inSection = true; continue; }
-    if (inSection) {
-      if (row.classList.contains('section-sep')) break;
-      lastRowOfSection = row;
-    }
+function addRowToSection(key, actor) {
+  const rows = Array.from(document.querySelectorAll('#tbody tr'));
+  let last = null, started = false;
+  for (const r of rows) {
+    if (r.classList.contains('section-sep') && r.dataset.section===key) { started=true; continue; }
+    if (started) { if (r.classList.contains('section-sep')) break; last=r; }
   }
-  const newRow = buildDataRow(sectionKey, actor, n);
-  if (lastRowOfSection) lastRowOfSection.after(newRow);
-  else {
-    const sep = document.querySelector(`#tbody tr.section-sep[data-section="${sectionKey}"]`);
-    if (sep) sep.after(newRow);
-  }
+  const newRow = buildDataRow(key, actor);
+  (last || document.querySelector(`#tbody tr.section-sep[data-section="${key}"]`)).after(newRow);
 }
 
 function addNewSection(label) {
-  const key = 'sec_' + Date.now();
-  const n = getColCount();
-  const colors = ['sec-paciente','sec-frontstage','sec-bk-clin','sec-bk-admin','sec-nav','sec-aps','sec-sistemas'];
-  const cls = colors[Math.floor(Math.random() * colors.length)];
-  const sep = document.createElement('tr');
-  sep.className = 'section-sep';
-  sep.dataset.section = key;
-  sep.innerHTML = `<td colspan="100" class="${cls}">${label}<div class="row-controls"><button class="row-ctrl-btn" onclick="addRowAfterSection(this)">+ fila abajo</button><button class="row-ctrl-btn del" onclick="deleteSection(this)">✕ sección</button></div></td>`;
-  const dataRow = buildDataRow(key, label, n);
+  const key='sec_'+Date.now();
+  const cls=['sec-paciente','sec-frontstage','sec-bk-clin','sec-bk-admin','sec-nav','sec-aps','sec-sistemas'][Math.floor(Math.random()*7)];
+  const sep=document.createElement('tr'); sep.className='section-sep'; sep.dataset.section=key;
+  sep.innerHTML=`<td colspan="100" class="${cls}">${label}<div class="row-controls"><button class="row-ctrl-btn" onclick="addRowAfterSection(this)">+ fila</button><button class="row-ctrl-btn del" onclick="deleteSection(this)">✕</button></div></td>`;
+  const row=buildDataRow(key,label);
   document.querySelector('#tbody').appendChild(sep);
-  document.querySelector('#tbody').appendChild(dataRow);
+  document.querySelector('#tbody').appendChild(row);
 }
 
-function buildDataRow(sectionKey, actor, n) {
-  const row = document.createElement('tr');
-  row.dataset.section = sectionKey;
-  const actorTd = document.createElement('td');
-  actorTd.className = 'actor-cell';
-  actorTd.contentEditable = editMode ? 'true' : 'false';
-  actorTd.textContent = actor;
-  row.appendChild(actorTd);
-  for (let i = 0; i < n; i++) {
-    const td = document.createElement('td');
-    td.innerHTML = makeEmptyCell();
-    row.appendChild(td);
-  }
+function buildDataRow(key, actor) {
+  const n=getColCount(); const row=document.createElement('tr'); row.dataset.section=key;
+  const ac=document.createElement('td'); ac.className='actor-cell'; ac.contentEditable=editMode?'true':'false'; ac.textContent=actor; row.appendChild(ac);
+  for(let i=0;i<n;i++){const td=document.createElement('td');td.innerHTML=makeEmptyCell();row.appendChild(td);}
   return row;
 }
 
 function addRowAfterSection(btn) {
-  const sep = btn.closest('tr.section-sep');
-  const key = sep.dataset.section;
-  const actor = prompt('Nombre del actor para esta fila:');
-  if (!actor) return;
-  const n = getColCount();
-  const allRows = Array.from(document.querySelectorAll('#tbody tr'));
-  let lastRow = sep;
-  let started = false;
-  for (const row of allRows) {
-    if (row === sep) { started = true; continue; }
-    if (started) {
-      if (row.classList.contains('section-sep')) break;
-      lastRow = row;
-    }
-  }
-  const newRow = buildDataRow(key, actor, n);
-  lastRow.after(newRow);
+  const sep=btn.closest('tr.section-sep'); const key=sep.dataset.section;
+  const actor=prompt('Nombre del actor:'); if(!actor) return;
+  const rows=Array.from(document.querySelectorAll('#tbody tr')); let last=sep, started=false;
+  for(const r of rows){if(r===sep){started=true;continue;}if(started){if(r.classList.contains('section-sep'))break;last=r;}}
+  last.after(buildDataRow(key,actor));
 }
 
 function deleteSection(btn) {
-  const sep = btn.closest('tr.section-sep');
-  const key = sep.dataset.section;
-  if (!confirm('¿Eliminar esta sección y todas sus filas?')) return;
-  document.querySelectorAll(`#tbody tr[data-section="${key}"]`).forEach(r => r.remove());
+  const sep=btn.closest('tr.section-sep'); const key=sep.dataset.section;
+  if(!confirm('¿Eliminar esta sección y sus filas?'))return;
+  document.querySelectorAll(`#tbody tr[data-section="${key}"]`).forEach(r=>r.remove());
 }
 
 function addTag(btn, type) {
-  const wrap = btn.closest('.cell-wrap');
-  const addBtns = btn.closest('.cell-add-btns');
-  const tag = document.createElement('span');
-  tag.className = type === 'gap' ? 'gap-tag' : 'nav-tag';
-  tag.contentEditable = editMode ? 'true' : 'false';
-  tag.innerHTML = (type === 'gap' ? '⚑ Nueva brecha' : '↗ Nodo NAV') + '<span class="del-tag" onclick="removeTag(this)">✕</span>';
-  wrap.insertBefore(tag, addBtns);
-  tag.focus();
-  // place cursor at start of text
-  const range = document.createRange();
-  range.setStart(tag.firstChild, 0);
-  range.collapse(true);
-  const sel = window.getSelection();
-  sel.removeAllRanges();
-  sel.addRange(range);
+  const wrap=btn.closest('.cell-wrap'); const addBtns=btn.closest('.cell-add-btns');
+  const tag=document.createElement('span'); tag.className=type==='gap'?'gap-tag':'nav-tag';
+  tag.contentEditable=editMode?'true':'false';
+  tag.innerHTML=(type==='gap'?'⚑ Nueva brecha':'↗ Nodo NAV')+'<span class="del-tag" onclick="removeTag(this)">✕</span>';
+  wrap.insertBefore(tag,addBtns);
+  const r=document.createRange(); r.setStart(tag.firstChild,0); r.collapse(true);
+  const s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
 }
 
-function removeTag(btn) {
-  btn.closest('.gap-tag, .nav-tag').remove();
-}
-
-function closeModal() {
-  document.getElementById('modal-row').style.display = 'none';
-  document.getElementById('modal-col').style.display = 'none';
-}
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeModal();
-});
+function removeTag(btn) { btn.closest('.gap-tag,.nav-tag').remove(); }
+function closeModals() { document.querySelectorAll('.modal-overlay').forEach(m=>m.style.display='none'); }
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModals(); });
 </script>
 </body>
 </html>

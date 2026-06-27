@@ -14,6 +14,8 @@ body{font-family:system-ui,sans-serif;background:#0f1117;color:#e8eaf6;height:10
 .btn{display:flex;align-items:center;gap:4px;padding:5px 10px;border-radius:6px;border:1px solid #2e3350;background:transparent;color:#8892b0;font-size:11px;cursor:pointer;white-space:nowrap;font-family:inherit;transition:background .1s}
 .btn:hover{background:#22263a}
 .btn.act{background:var(--acc);color:#fff;border-color:var(--acc)}
+.btn.rdx{border-color:var(--red);color:var(--red)}
+.btn.rdx:hover{background:var(--red);color:#fff}
 .mw{display:flex;border:1px solid #2e3350;border-radius:6px;overflow:hidden}
 .mw .btn{border:none;border-radius:0}
 #main{display:flex;flex:1;overflow:hidden}
@@ -32,14 +34,18 @@ body.pres .ph-add{display:none}
 .lr{display:flex;border-bottom:1px solid #2e3350}
 .lr.col .lb-body{display:none}
 .ll{width:var(--lw);min-width:var(--lw);background:#1a1d27;border-right:1px solid #2e3350;position:sticky;left:0;z-index:30;display:flex;flex-direction:column;flex-shrink:0}
-.llm{display:flex;align-items:center;gap:6px;padding:7px 9px;cursor:pointer;min-height:var(--ch);transition:background .1s}
+.llm{display:flex;align-items:center;gap:6px;padding:7px 9px;cursor:pointer;min-height:var(--ch);transition:background .1s;position:relative}
 .llm:hover{background:#22263a}
+.llm:hover .del-layer{display:flex}
+.del-layer{display:none;position:absolute;right:6px;top:6px;width:18px;height:18px;border-radius:4px;background:#A32D2D;color:#fff;font-size:11px;align-items:center;justify-content:center;cursor:pointer;border:none;z-index:5}
 .ln{font-size:11px;font-weight:600;line-height:1.3;flex:1;min-width:0}
 .ls{font-size:9px;color:#636e72;margin-top:1px}
 .lch{font-size:9px;color:#636e72;transition:transform .15s;flex-shrink:0}
 .lr.col .lch{transform:rotate(-90deg)}
-.sll{display:flex;align-items:center;gap:5px;padding:5px 9px 5px 18px;border-top:1px solid #2e3350;min-height:var(--sh);background:#1a1d27}
-.sd{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.sll{display:flex;align-items:center;gap:5px;padding:5px 9px 5px 18px;border-top:1px solid #2e3350;min-height:var(--sh);background:#1a1d27;position:relative}
+.sll:hover .del-sub{display:flex}
+.del-sub{display:none;position:absolute;right:6px;top:50%;transform:translateY(-50%);width:16px;height:16px;border-radius:3px;background:#A32D2D;color:#fff;font-size:10px;align-items:center;justify-content:center;cursor:pointer;border:none}
+.sd-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 .sn{font-size:10px;color:#8892b0;font-weight:500;line-height:1.3}
 .lb-body{display:flex;flex:1}
 .sr-wrap{display:flex;flex-direction:column;width:100%}
@@ -49,6 +55,8 @@ body.pres .ph-add{display:none}
 .ca{width:22px;height:22px;border:1px dashed #2e3350;border-radius:5px;display:flex;align-items:center;justify-content:center;color:#636e72;cursor:pointer;font-size:14px;transition:all .1s;flex-shrink:0;align-self:flex-start}
 .ca:hover{border-color:var(--acc);color:var(--acc);background:rgba(24,95,165,.15)}
 body.pres .ca{display:none!important}
+body.pres .del-layer{display:none!important}
+body.pres .del-sub{display:none!important}
 .node{position:relative;border-radius:7px;border:1.5px solid;padding:5px 6px;cursor:pointer;transition:all .1s;max-width:190px;min-width:68px;background:#1a1d27}
 .node:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(0,0,0,.4)}
 body.pres .node{cursor:default}
@@ -79,7 +87,7 @@ body.pres #pan{width:0!important;border:none!important}
 #pan-b{flex:1;overflow-y:auto;padding:12px 14px}
 .fl{margin-bottom:12px}
 .fl label{display:block;font-size:9px;font-weight:700;color:#636e72;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
-.fl input,.fl textarea,.fl select{width:100%;background:#22263a;border:1px solid #2e3350;color:#e8eaf6;border-radius:5px;padding:6px 8px;font-size:12px;font-family:inherit;resize:vertical;transition:border-color .1s}
+.fl input,.fl textarea{width:100%;background:#22263a;border:1px solid #2e3350;color:#e8eaf6;border-radius:5px;padding:6px 8px;font-size:12px;font-family:inherit;resize:vertical;transition:border-color .1s}
 .fl input:focus,.fl textarea:focus{outline:none;border-color:var(--acc)}
 .fl textarea{min-height:58px}
 .tr{display:flex;gap:5px}
@@ -87,7 +95,8 @@ body.pres #pan{width:0!important;border:none!important}
 .tb.ta{border-color:var(--acc);color:#85B7EB;background:rgba(24,95,165,.15)}
 .tb.tt{border-color:var(--pur);color:#AFA9EC;background:rgba(83,74,183,.15)}
 .sg2{display:grid;grid-template-columns:1fr 1fr;gap:4px}
-.so{padding:5px;border-radius:5px;border:1px solid #2e3350;font-size:11px;font-weight:600;cursor:pointer;text-align:center;transition:all .1s;font-family:inherit;background:transparent;color:#8892b0}
+.so{padding:5px;border-radius:5px;border:1.5px solid #2e3350;font-size:11px;font-weight:600;cursor:pointer;text-align:center;transition:all .1s;font-family:inherit;background:transparent;color:#8892b0}
+.so.sel{color:#fff!important;border-width:2px}
 .fr{display:flex;gap:5px;flex-wrap:wrap}
 .fb{padding:3px 8px;border-radius:14px;border:1px solid #2e3350;font-size:11px;cursor:pointer;background:#22263a;color:#8892b0;transition:all .1s;font-family:inherit}
 .fb.on{border-color:var(--acc);background:rgba(24,95,165,.2);color:#85B7EB}
@@ -100,12 +109,17 @@ body.pres #pan{width:0!important;border:none!important}
 .ld{width:7px;height:7px;border-radius:2px;flex-shrink:0}
 #mb{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:200}
 #mb.op{display:flex}
-#md{background:#1a1d27;border:1px solid #2e3350;border-radius:10px;padding:18px;width:340px;max-width:92vw}
+#md{background:#1a1d27;border:1px solid #2e3350;border-radius:10px;padding:18px;width:360px;max-width:92vw}
 #md h3{font-size:13px;font-weight:600;margin-bottom:12px}
 .mf{display:flex;gap:5px;margin-top:12px}
 .mf .btn{flex:1;padding:7px;justify-content:center;font-size:12px}
 .cs{width:20px;height:20px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:border-color .1s;flex-shrink:0}
 .cr{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.confirm-del{background:#1a0808;border:1px solid var(--red);border-radius:6px;padding:10px 12px;margin-top:10px;font-size:11px;color:#f09595;display:none}
+.confirm-del.show{display:block}
+.confirm-del strong{color:var(--red);display:block;margin-bottom:6px;font-size:12px}
+.confirm-del .confirm-btns{display:flex;gap:6px;margin-top:8px}
+.confirm-del .confirm-btns .btn{flex:1;padding:6px;justify-content:center;font-size:11px}
 </style>
 </head>
 <body>
@@ -154,7 +168,19 @@ body.pres #pan{width:0!important;border:none!important}
   <div class="fl"><label>Nombre</label><input id="mn" placeholder="Ej: Comité oncológico"></div>
   <div class="fl"><label>Ícono</label><input id="mi" placeholder="🔬" style="font-size:15px"></div>
   <div class="fl"><label>Color</label><div class="cr" id="mc"></div></div>
-  <div class="mf"><button class="btn" onclick="closeMd()">Cancelar</button><button class="btn act" id="mok" onclick="okMd()">Crear</button></div>
+  <div class="confirm-del" id="phase-del-confirm">
+    <strong>⚠️ ¿Eliminar esta fase?</strong>
+    Se eliminarán todos los nodos contenidos en ella. Esta acción no se puede deshacer.
+    <div class="confirm-btns">
+      <button class="btn" onclick="cancelDelPhase()">Cancelar</button>
+      <button class="btn rdx" onclick="confirmDelPhase()">Sí, eliminar</button>
+    </div>
+  </div>
+  <div class="mf" id="modal-btns">
+    <button class="btn" onclick="closeMd()">Cancelar</button>
+    <button class="btn rdx" id="mbdel" onclick="showDelPhase()" style="display:none">🗑 Eliminar fase</button>
+    <button class="btn act" id="mok" onclick="okMd()">Crear</button>
+  </div>
 </div></div>
 <script>
 const ST=[
@@ -196,53 +222,53 @@ function uid(){return Math.random().toString(36).slice(2,9)}
 function k(l,s,p){return l+'|'+(s||'')+'|'+p}
 let S={phases:[],layers:[],cells:{},mode:'work'};
 function loadS(){
-  try{const x=localStorage.getItem('nb_v3');if(x){S=JSON.parse(x);return}}catch(e){}
+  try{const x=localStorage.getItem('nb_v4');if(x){S=JSON.parse(x);return}}catch(e){}
   S.phases=JSON.parse(JSON.stringify(DP));
   S.layers=JSON.parse(JSON.stringify(DL));
   S.cells={};seed();
 }
-function saveS(){try{localStorage.setItem('nb_v3',JSON.stringify(S))}catch(e){}}
+function saveS(){try{localStorage.setItem('nb_v4',JSON.stringify(S))}catch(e){}}
 function an(l,s,p,d){const x=k(l,s,p);if(!S.cells[x])S.cells[x]=[];S.cells[x].push({id:uid(),...d})}
 function seed(){
   an('lp','lp1','p1',{title:'Ingresa por APS',type:'touch',actor:'Médico general / CESFAM',status:'si',flags:['ke'],desc:'Paciente con sospecha oncológica evaluado en APS. Médico elabora IC a HPM.',notes:''});
   an('lp','lp1','p1',{title:'Ingresa por urgencias',type:'touch',actor:'SU HPM',status:'si',flags:[],desc:'Cuadro agudo con sospecha oncológica detectada en urgencias.',notes:''});
   an('lp','lp1','p1',{title:'Hospitalizado HPM',type:'touch',actor:'Equipo tratante',status:'si',flags:[],desc:'Sospecha detectada durante hospitalización por otra causa.',notes:''});
   an('lp','lp2','p1',{title:'Ambulatorio / CE',type:'touch',actor:'Especialista',status:'si',flags:[],desc:'Detección en consulta de especialidad.',notes:''});
-  an('lp','lp2','p1',{title:'Extrasistema',type:'action',actor:'Paciente / Familia',status:'sd',flags:['al'],desc:'Paciente desde sistema privado u otra red. Requiere validación y reingreso.',notes:'Barrera: documentación y tiempos de reingreso.'});
-  an('lp','lp2','p1',{title:'Macrorred / derivación',type:'action',actor:'SSDR / MINSAL',status:'sd',flags:['lk'],desc:'Derivación desde otro servicio de salud o establecimiento de la macrorred.',notes:''});
-  an('lp','lp1','p2',{title:'Sospecha GES activada',type:'touch',actor:'Médico / Equipo',status:'si',flags:['ke'],desc:'Código GES activado. Paciente entra a protocolo de garantías explícitas oncológicas.',notes:''});
-  an('lp','lp2','p2',{title:'Sospecha no GES',type:'touch',actor:'Médico / Especialista',status:'si',flags:['al'],desc:'Sin código GES. Entra a lista de espera no GES. Sin garantía de plazo.',notes:'Mayor vulnerabilidad: sin garantía de plazo.'});
+  an('lp','lp2','p1',{title:'Extrasistema',type:'action',actor:'Paciente / Familia',status:'sd',flags:['al'],desc:'Paciente desde sistema privado u otra red.',notes:'Barrera: documentación y tiempos de reingreso.'});
+  an('lp','lp2','p1',{title:'Macrorred / derivación',type:'action',actor:'SSDR / MINSAL',status:'sd',flags:['lk'],desc:'Derivación desde otro servicio de salud.',notes:''});
+  an('lp','lp1','p2',{title:'Sospecha GES activada',type:'touch',actor:'Médico / Equipo',status:'si',flags:['ke'],desc:'Código GES activado. Entra a protocolo de garantías explícitas.',notes:''});
+  an('lp','lp2','p2',{title:'Sospecha no GES',type:'touch',actor:'Médico / Especialista',status:'si',flags:['al'],desc:'Sin código GES. Lista de espera no GES. Sin garantía de plazo.',notes:''});
   an('lf','','p2',{title:'Equipo oncológico identifica sospecha',type:'action',actor:'Equipo clínico HPM',status:'si',flags:[],desc:'Revisión de antecedentes, imágenes y laboratorio.',notes:''});
-  an('la','','p2',{title:'GCO registra caso',type:'action',actor:'Gestor oncológico',status:'sp',flags:['al'],desc:'GCO ingresa caso al sistema de seguimiento y asigna prioridad.',notes:'Brecha: subregistro histórico en HPM.'});
+  an('la','','p2',{title:'GCO registra caso',type:'action',actor:'Gestor oncológico',status:'sp',flags:['al'],desc:'GCO ingresa caso y asigna prioridad.',notes:'Brecha: subregistro histórico en HPM.'});
   an('lp','lp1','p3',{title:'IC recibida en HPM',type:'touch',actor:'APS / SU / CE',status:'si',flags:[],desc:'IC llega a HPM. Tiempo GES comienza a contar.',notes:''});
   an('lf','','p3',{title:'Revisión IC por especialista',type:'action',actor:'Oncólogo / Especialista',status:'si',flags:[],desc:'Especialista revisa IC, determina urgencia y prioridad.',notes:''});
-  an('ln','','p3',{title:'Navegador vincula paciente',type:'touch',actor:'Navegador en Red',status:'sp',flags:['ke','lk'],desc:'Navegador contacta al paciente: informa proceso, identifica barreras, prepara cita.',notes:'Llamada pre-consulta: script estructurado.'});
+  an('ln','','p3',{title:'Navegador vincula paciente',type:'touch',actor:'Navegador en Red',status:'sp',flags:['ke','lk'],desc:'Navegador contacta al paciente: informa proceso, identifica barreras.',notes:'Llamada pre-consulta: script estructurado.'});
   an('la','','p3',{title:'GCO coordina agenda',type:'action',actor:'Gestor oncológico',status:'sp',flags:[],desc:'GCO coordina agenda dentro del plazo GES.',notes:''});
-  an('lp','lp1','p4',{title:'Hora especialista HPM',type:'touch',actor:'Oncólogo / Especialista',status:'si',flags:['ke'],desc:'Primera consulta. Evaluación clínica y definición de plan de estudio.',notes:''});
-  an('lf','','p4',{title:'Evaluación y solicitud exámenes',type:'action',actor:'Especialista',status:'si',flags:[],desc:'Solicitud de imágenes, biopsia, laboratorio según protocolo.',notes:''});
-  an('ln','','p4',{title:'Acompañamiento pre-consulta',type:'touch',actor:'Navegador en Red',status:'sp',flags:['bp'],desc:'Navegador verifica asistencia, apoya traslado, entrega información.',notes:'Buena práctica: reducción de NSP en oncología.'});
-  an('la','','p4',{title:'Ventanilla GES / admisión',type:'action',actor:'Ventanilla / GCO',status:'si',flags:[],desc:'Admisión del paciente. Entrega información clínica y administrativa.',notes:''});
+  an('lp','lp1','p4',{title:'Hora especialista HPM',type:'touch',actor:'Oncólogo / Especialista',status:'si',flags:['ke'],desc:'Primera consulta. Evaluación clínica y plan de estudio.',notes:''});
+  an('lf','','p4',{title:'Evaluación y solicitud exámenes',type:'action',actor:'Especialista',status:'si',flags:[],desc:'Solicitud de imágenes, biopsia, laboratorio.',notes:''});
+  an('ln','','p4',{title:'Acompañamiento pre-consulta',type:'touch',actor:'Navegador en Red',status:'sp',flags:['bp'],desc:'Navegador verifica asistencia, apoya traslado.',notes:'Buena práctica: reducción de NSP en oncología.'});
+  an('la','','p4',{title:'Ventanilla GES / admisión',type:'action',actor:'Ventanilla / GCO',status:'si',flags:[],desc:'Admisión. Entrega información clínica y administrativa.',notes:''});
   an('lp','lp1','p5',{title:'Exámenes realizados',type:'touch',actor:'Paciente',status:'si',flags:[],desc:'Paciente realiza exámenes: imágenes, biopsia, laboratorio.',notes:''});
-  an('lp','lp2','p5',{title:'Resultado: confirma / descarta',type:'touch',actor:'Especialista',status:'si',flags:['ke'],desc:'Con biopsia u otros exámenes se confirma o descarta diagnóstico.',notes:'Momento de alto impacto emocional.'});
+  an('lp','lp2','p5',{title:'Resultado: confirma / descarta',type:'touch',actor:'Especialista',status:'si',flags:['ke'],desc:'Con biopsia u otros se confirma o descarta diagnóstico.',notes:'Momento de alto impacto emocional.'});
   an('lf','','p5',{title:'Entrega de diagnóstico',type:'touch',actor:'Médico tratante',status:'si',flags:['al'],desc:'Comunicación del diagnóstico al paciente y familiar.',notes:''});
   an('ln','','p5',{title:'Llamada post-resultado',type:'touch',actor:'Navegador en Red',status:'sd',flags:['ke'],desc:'Contención emocional y preparación para comité.',notes:''});
   an('lt','','p5',{title:'Registro plataforma oncológica',type:'action',actor:'GCO / Hospital',status:'sb',flags:['rf'],desc:'Registro en plataforma de seguimiento oncológico MINSAL.',notes:'Brecha crítica: subregistro histórico en HPM.'});
-  an('lf','','p6',{title:'Presentación comité ONCO',type:'action',actor:'Equipo clínico',status:'si',flags:['ke'],desc:'Caso presentado a comité multidisciplinario. Decisión colectiva del plan terapéutico.',notes:''});
-  an('lp','lp1','p6',{title:'Comité: acepta / rechaza / deriva',type:'touch',actor:'Comité ONCO',status:'si',flags:[],desc:'Tres resultados: aprobación del plan, rechazo o derivación.',notes:''});
+  an('lf','','p6',{title:'Presentación comité ONCO',type:'action',actor:'Equipo clínico',status:'si',flags:['ke'],desc:'Caso presentado a comité multidisciplinario.',notes:''});
+  an('lp','lp1','p6',{title:'Comité: acepta / rechaza / deriva',type:'touch',actor:'Comité ONCO',status:'si',flags:[],desc:'Tres resultados: aprobación, rechazo o derivación.',notes:''});
   an('la','','p6',{title:'GCO gestiona resultado comité',type:'action',actor:'Gestor oncológico',status:'sp',flags:['lk'],desc:'GCO coordina agendamiento, derivación o cierre.',notes:''});
   an('ln','','p6',{title:'Navegador informa a paciente',type:'touch',actor:'Navegador en Red',status:'sd',flags:['ke'],desc:'Navegador informa decisión del comité y próximos pasos.',notes:''});
-  an('lp','lp1','p7',{title:'QMT — quimioterapia',type:'action',actor:'Oncólogo médico',status:'sd',flags:[],desc:'Inicio de quimioterapia según protocolo. Múltiples ciclos con controles intercalados.',notes:''});
-  an('lp','lp1','p7',{title:'RDT — radioterapia',type:'action',actor:'Oncólogo radioterapeuta',status:'sd',flags:['al'],desc:'Inicio de radioterapia. Planificación, simulación y tratamiento.',notes:'Disponibilidad limitada en HPM. Puede requerir derivación.'});
+  an('lp','lp1','p7',{title:'QMT — quimioterapia',type:'action',actor:'Oncólogo médico',status:'sd',flags:[],desc:'Inicio de quimioterapia según protocolo. Múltiples ciclos.',notes:''});
+  an('lp','lp1','p7',{title:'RDT — radioterapia',type:'action',actor:'Oncólogo radioterapeuta',status:'sd',flags:['al'],desc:'Planificación, simulación y tratamiento.',notes:'Disponibilidad limitada en HPM. Puede requerir derivación.'});
   an('lp','lp1','p7',{title:'CX — cirugía oncológica',type:'action',actor:'Cirujano oncólogo',status:'sd',flags:['al'],desc:'Intervención quirúrgica. Tiempos variables según complejidad.',notes:'Brecha: tiempos quirúrgicos fuera de garantía GES.'});
-  an('lp','lp2','p7',{title:'CCPP — cuidados paliativos',type:'action',actor:'Equipo CCPP',status:'sd',flags:['ke'],desc:'Ingreso a programa de cuidados paliativos.',notes:'Incluye coordinación con APS para seguimiento domiciliario.'});
-  an('lp','lp2','p7',{title:'QMT + RDT — combinado',type:'action',actor:'Equipo oncológico',status:'sd',flags:[],desc:'Protocolo combinado de quimioterapia y radioterapia.',notes:''});
-  an('ln','','p7',{title:'Navegador acompaña inicio tto.',type:'touch',actor:'Navegador en Red',status:'sd',flags:['ke','bp'],desc:'Verifica comprensión del plan, apoya logística y contención.',notes:'Rol central NAV: articulador entre lo clínico y la vivencia.'});
+  an('lp','lp2','p7',{title:'CCPP — cuidados paliativos',type:'action',actor:'Equipo CCPP',status:'sd',flags:['ke'],desc:'Ingreso a programa de cuidados paliativos.',notes:'Coordinación con APS para seguimiento domiciliario.'});
+  an('lp','lp2','p7',{title:'QMT + RDT — combinado',type:'action',actor:'Equipo oncológico',status:'sd',flags:[],desc:'Protocolo combinado quimioterapia y radioterapia.',notes:''});
+  an('ln','','p7',{title:'Navegador acompaña inicio tto.',type:'touch',actor:'Navegador en Red',status:'sd',flags:['ke','bp'],desc:'Verifica comprensión del plan, apoya logística y contención.',notes:'Rol central NAV: articulador clínico-vivencia.'});
   an('la','','p7',{title:'GCO coordina tratamiento',type:'action',actor:'Gestor oncológico',status:'sp',flags:[],desc:'GCO gestiona agendas y asegura continuidad.',notes:''});
-  an('lp','lp1','p8',{title:'Control post-tratamiento',type:'touch',actor:'Especialista',status:'sd',flags:[],desc:'Controles de seguimiento. Evaluación de respuesta al tratamiento.',notes:''});
-  an('lp','lp2','p8',{title:'Alta terapéutica / fallecimiento',type:'touch',actor:'Equipo clínico',status:'sd',flags:['al'],desc:'Cierre del caso: alta terapéutica o fallecimiento registrado.',notes:''});
+  an('lp','lp1','p8',{title:'Control post-tratamiento',type:'touch',actor:'Especialista',status:'sd',flags:[],desc:'Controles de seguimiento. Evaluación de respuesta.',notes:''});
+  an('lp','lp2','p8',{title:'Alta terapéutica / fallecimiento',type:'touch',actor:'Equipo clínico',status:'sd',flags:['al'],desc:'Cierre: alta terapéutica o fallecimiento registrado.',notes:''});
   an('ln','','p8',{title:'Llamada seguimiento NAV',type:'touch',actor:'Navegador en Red',status:'sd',flags:['ke','bp'],desc:'Llamada post-atención: adherencia, barreras, evolución.',notes:'Protocolo NAV: llamada post-tratamiento.'});
-  an('lb','','p8',{title:'Reporte semanal MINSAL',type:'action',actor:'UGT / Paulo',status:'si',flags:['ke'],desc:'Envío viernes del consolidado al MINSAL. Template Plan Alerta Oncológica.',notes:''});
-  an('lp','lp1','p8',{title:'Retorno a APS',type:'touch',actor:'Médico APS',status:'sd',flags:['lk'],desc:'Alta terapéutica derivada a APS para seguimiento en nivel primario.',notes:''});
+  an('lb','','p8',{title:'Reporte semanal MINSAL',type:'action',actor:'UGT / Paulo',status:'si',flags:['ke'],desc:'Envío viernes del consolidado al MINSAL.',notes:''});
+  an('lp','lp1','p8',{title:'Retorno a APS',type:'touch',actor:'Médico APS',status:'sd',flags:['lk'],desc:'Alta terapéutica derivada a APS para seguimiento primario.',notes:''});
 }
 function render(){
   const cv=document.getElementById('cv');cv.innerHTML='';
@@ -253,15 +279,27 @@ function render(){
     d.innerHTML=`<span class="ph-ic">${p.ic}</span><div><div class="ph-n">${p.lb}</div><div class="ph-t">${p.nm}</div></div>`;
     d.ondblclick=()=>openEdit2(p.id);hr.appendChild(d);
   });
-  const ap=document.createElement('div');ap.className='ph-add';ap.innerHTML='+';ap.title='Agregar fase';ap.onclick=()=>openAdd();hr.appendChild(ap);
+  const ap=document.createElement('div');ap.className='ph-add';ap.innerHTML='+';ap.onclick=()=>openAdd();hr.appendChild(ap);
   cv.appendChild(hr);
   S.layers.forEach(lr=>{
-    const row=document.createElement('div');row.className='lr'+(lr.col?' col':'');row.id='r'+lr.id;
+    const row=document.createElement('div');row.className='lr'+(lr.col?' col':'');
     const ll=document.createElement('div');ll.className='ll';
     const lm=document.createElement('div');lm.className='llm';
+    const delBtn=document.createElement('button');delBtn.className='del-layer';delBtn.textContent='✕';delBtn.title='Eliminar capa';
+    delBtn.onclick=e=>{e.stopPropagation();delLayer(lr.id)};
     lm.innerHTML=`<span style="font-size:15px;flex-shrink:0">${lr.ic}</span><div class="ln" style="color:${lr.c}">${lr.nm}<div class="ls">${lr.sb}</div></div><span class="lch">▼</span>`;
-    lm.onclick=()=>togL(lr.id);ll.appendChild(lm);
-    if(lr.subs&&lr.subs.length){lr.subs.forEach(sl=>{const sd=document.createElement('div');sd.className='sll';sd.innerHTML=`<div class="sd" style="background:${sl.c}"></div><div class="sn">${sl.nm}</div>`;ll.appendChild(sd);})}
+    lm.appendChild(delBtn);
+    lm.onclick=e=>{if(e.target===delBtn)return;togL(lr.id)};
+    ll.appendChild(lm);
+    if(lr.subs&&lr.subs.length){
+      lr.subs.forEach(sl=>{
+        const sd=document.createElement('div');sd.className='sll';
+        const dsub=document.createElement('button');dsub.className='del-sub';dsub.textContent='✕';dsub.title='Eliminar subfila';
+        dsub.onclick=e=>{e.stopPropagation();delSub(lr.id,sl.id)};
+        sd.innerHTML=`<div class="sd-dot" style="background:${sl.c}"></div><div class="sn">${sl.nm}</div>`;
+        sd.appendChild(dsub);ll.appendChild(sd);
+      });
+    }
     row.appendChild(ll);
     const body=document.createElement('div');body.className='lb-body';
     if(lr.subs&&lr.subs.length){
@@ -274,14 +312,14 @@ function render(){
 }
 function mCell(l,s,p,sub){
   const ck=k(l,s,p);const nodes=S.cells[ck]||[];
-  const c=document.createElement('div');c.className='cell'+(sub?' sc':'');c.dataset.k=ck;
+  const c=document.createElement('div');c.className='cell'+(sub?' sc':'');
   nodes.forEach(n=>c.appendChild(mNode(n,ck)));
-  const ab=document.createElement('div');ab.className='ca';ab.innerHTML='+';ab.title='Agregar nodo';ab.onclick=e=>{e.stopPropagation();openNew(ck)};
+  const ab=document.createElement('div');ab.className='ca';ab.innerHTML='+';ab.onclick=e=>{e.stopPropagation();openNew(ck)};
   c.appendChild(ab);return c;
 }
 function mNode(n,ck){
   const st=ST.find(s=>s.id===n.status)||ST[5];
-  const el=document.createElement('div');el.className=`node ${st.cl}`;el.dataset.nid=n.id;el.dataset.k=ck;
+  const el=document.createElement('div');el.className=`node ${st.cl}`;
   const ti=n.type==='touch'?'◎':'⚡';
   const tb=n.type==='touch'?'bg bt':'bg ba';const tl=n.type==='touch'?'Touchpoint':'Acción';
   const fl=(n.flags||[]).map(f=>{const x=FL.find(v=>v.id===f);return x?`<span title="${x.l}">${x.e}</span>`:''}).join('');
@@ -289,6 +327,21 @@ function mNode(n,ck){
   el.onclick=e=>{e.stopPropagation();openEd(ck,n.id)};return el;
 }
 function togL(id){const l=S.layers.find(x=>x.id===id);if(l){l.col=!l.col;saveS();render();}}
+function delLayer(id){
+  if(!confirm('¿Eliminar esta capa y todos sus nodos? Esta acción no se puede deshacer.'))return;
+  if(!confirm('Segunda confirmación: ¿seguro que deseas eliminar la capa?'))return;
+  S.layers=S.layers.filter(x=>x.id!==id);
+  Object.keys(S.cells).forEach(k=>{if(k.startsWith(id+'|'))delete S.cells[k];});
+  saveS();render();
+}
+function delSub(lid,sid){
+  if(!confirm('¿Eliminar esta subfila y todos sus nodos?'))return;
+  if(!confirm('Segunda confirmación: ¿seguro?'))return;
+  const l=S.layers.find(x=>x.id===lid);if(!l)return;
+  l.subs=l.subs.filter(x=>x.id!==sid);
+  Object.keys(S.cells).forEach(k=>{if(k.startsWith(lid+'|'+sid+'|'))delete S.cells[k];});
+  saveS();render();
+}
 let cK=null,cN=null,isN=false,_t='action',_s='sn',_f=[];
 function openNew(ck){if(S.mode==='pres')return;cK=ck;cN=null;isN=true;resetP();document.getElementById('pan-ti').textContent='Nuevo nodo';document.getElementById('pan').classList.remove('cl');}
 function openEd(ck,nid){
@@ -302,8 +355,21 @@ function openEd(ck,nid){
 }
 function resetP(){document.getElementById('fti').value='';document.getElementById('fac').value='';document.getElementById('fde').value='';document.getElementById('fno').value='';setT('action',false);renderSt('sn');renderFl([]);}
 function closeP(){document.getElementById('pan').classList.add('cl');cK=null;cN=null;}
-function setT(t,_){_t=t;document.getElementById('ta').className='tb'+(t==='action'?' ta':'');document.getElementById('tt').className='tb'+(t==='touch'?' tt':'');}
-function renderSt(sel){_s=sel;const g=document.getElementById('stg');g.innerHTML='';ST.forEach(s=>{const d=document.createElement('button');d.className='so'+(s.id===sel?' sel':'');d.style.borderColor=s.c;d.style.color=s.c;if(s.id===sel)d.style.background=s.c+'33';d.textContent=s.l;d.onclick=()=>renderSt(s.id);g.appendChild(d);});}
+function setT(t){_t=t;document.getElementById('ta').className='tb'+(t==='action'?' ta':'');document.getElementById('tt').className='tb'+(t==='touch'?' tt':'');}
+function renderSt(sel){
+  _s=sel;const g=document.getElementById('stg');g.innerHTML='';
+  ST.forEach(s=>{
+    const d=document.createElement('button');
+    const isSel=s.id===sel;
+    d.className='so'+(isSel?' sel':'');
+    d.style.borderColor=s.c;
+    d.style.color=isSel?'#fff':s.c;
+    d.style.background=isSel?s.c:'transparent';
+    d.style.fontWeight=isSel?'700':'600';
+    d.textContent=(isSel?'✓ ':'')+s.l;
+    d.onclick=()=>renderSt(s.id);g.appendChild(d);
+  });
+}
 function renderFl(sel){_f=[...sel];const g=document.getElementById('flg');g.innerHTML='';FL.forEach(f=>{const b=document.createElement('button');b.className='fb'+(_f.includes(f.id)?' on':'');b.textContent=f.e+' '+f.l;b.onclick=()=>{if(_f.includes(f.id))_f=_f.filter(x=>x!==f.id);else _f.push(f.id);renderFl(_f);};g.appendChild(b);});}
 function saveN(){
   const t=document.getElementById('fti').value.trim();if(!t){document.getElementById('fti').style.borderColor='#A32D2D';return;}
@@ -316,10 +382,40 @@ function saveN(){
 function delN(){if(!cK||!cN)return;if(!confirm('¿Eliminar este nodo?'))return;S.cells[cK]=(S.cells[cK]||[]).filter(x=>x.id!==cN);saveS();render();closeP();}
 let mm='add',ePid=null,_mc=COLS[0];
 function renderMC(sel){const c=document.getElementById('mc');c.innerHTML='';COLS.forEach(col=>{const s=document.createElement('div');s.className='cs';s.style.background=col;if(col===sel)s.style.borderColor='#fff';s.onclick=()=>{_mc=col;renderMC(col);};c.appendChild(s);});}
-function openAdd(){mm='add';_mc=COLS[0];document.getElementById('mti').textContent='Nueva fase';document.getElementById('mn').value='';document.getElementById('mi').value='📌';document.getElementById('mok').textContent='Crear';renderMC(_mc);document.getElementById('mb').classList.add('op');}
-function openEdit2(id){mm='edit';ePid=id;const p=S.phases.find(x=>x.id===id);if(!p)return;_mc=p.c;document.getElementById('mti').textContent='Editar fase';document.getElementById('mn').value=p.nm;document.getElementById('mi').value=p.ic;document.getElementById('mok').textContent='Guardar';renderMC(_mc);document.getElementById('mb').classList.add('op');}
-function closeMd(){document.getElementById('mb').classList.remove('op');}
-function okMd(){const n=document.getElementById('mn').value.trim();const ic=document.getElementById('mi').value.trim()||'📌';if(!n)return;if(mm==='add'){S.phases.push({id:'p'+uid(),ic,nm:n,c:_mc,lb:'Fase '+(S.phases.length+1)});}else{const p=S.phases.find(x=>x.id===ePid);if(p){p.nm=n;p.ic=ic;p.c=_mc;}}saveS();render();closeMd();}
+function openAdd(){
+  mm='add';_mc=COLS[0];
+  document.getElementById('mti').textContent='Nueva fase';
+  document.getElementById('mn').value='';document.getElementById('mi').value='📌';
+  document.getElementById('mok').textContent='Crear';
+  document.getElementById('mbdel').style.display='none';
+  document.getElementById('phase-del-confirm').classList.remove('show');
+  renderMC(_mc);document.getElementById('mb').classList.add('op');
+}
+function openEdit2(id){
+  mm='edit';ePid=id;const p=S.phases.find(x=>x.id===id);if(!p)return;
+  _mc=p.c;
+  document.getElementById('mti').textContent='Editar fase';
+  document.getElementById('mn').value=p.nm;document.getElementById('mi').value=p.ic;
+  document.getElementById('mok').textContent='Guardar';
+  document.getElementById('mbdel').style.display='flex';
+  document.getElementById('phase-del-confirm').classList.remove('show');
+  renderMC(_mc);document.getElementById('mb').classList.add('op');
+}
+function showDelPhase(){document.getElementById('phase-del-confirm').classList.add('show');}
+function cancelDelPhase(){document.getElementById('phase-del-confirm').classList.remove('show');}
+function confirmDelPhase(){
+  if(!ePid)return;
+  S.phases=S.phases.filter(x=>x.id!==ePid);
+  Object.keys(S.cells).forEach(ck=>{if(ck.endsWith('|'+ePid))delete S.cells[ck];});
+  saveS();render();closeMd();
+}
+function closeMd(){document.getElementById('mb').classList.remove('op');document.getElementById('phase-del-confirm').classList.remove('show');}
+function okMd(){
+  const n=document.getElementById('mn').value.trim();const ic=document.getElementById('mi').value.trim()||'📌';if(!n)return;
+  if(mm==='add'){S.phases.push({id:'p'+uid(),ic,nm:n,c:_mc,lb:'Fase '+(S.phases.length+1)});}
+  else{const p=S.phases.find(x=>x.id===ePid);if(p){p.nm=n;p.ic=ic;p.c=_mc;}}
+  saveS();render();closeMd();
+}
 document.getElementById('mb').onclick=e=>{if(e.target===document.getElementById('mb'))closeMd();};
 function setMode(m){S.mode=m;if(m==='pres'){document.body.classList.add('pres');document.getElementById('bw').className='btn';document.getElementById('bp2').className='btn act';closeP();}else{document.body.classList.remove('pres');document.getElementById('bw').className='btn act';document.getElementById('bp2').className='btn';}saveS();}
 function doExp(){const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`blueprint_nav_${new Date().toISOString().slice(0,10)}.json`;a.click();}

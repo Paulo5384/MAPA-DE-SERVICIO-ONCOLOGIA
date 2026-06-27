@@ -3,555 +3,1193 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mapa de Servicios — Gestión Oncológica CC · HPM</title>
+<title>Blueprint Oncológico — Plan 90 Días · HPM</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --azul:#185FA5; --azul-l:#E6F1FB; --azul-m:#B5D4F4;
-    --teal:#0F6E56; --teal-l:#E1F5EE;
-    --amber:#854F0B; --amber-l:#FAEEDA;
-    --coral:#993C1D; --coral-l:#FAECE7;
-    --purple:#534AB7; --purple-l:#EEEDFE;
-    --gray:#444441; --gray-l:#F1EFE8; --gray-m:#D3D1C7;
-    --red:#A32D2D; --red-l:#FCEBEB; --red-m:#F7C1C1;
-    --green:#3B6D11; --green-l:#EAF3DE;
-    --body-bg:#f8f7f4; --border:#c8c6bc; --border-h:#a8a69e;
-    --text:#1a1a18; --text-s:#5f5e5a; --text-xs:#888780;
-    --shadow:0 1px 3px rgba(0,0,0,0.08);
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2e3350;
+    --accent: #4f8ef7;
+    --accent2: #7c5cbf;
+    --text: #e8eaf6;
+    --text2: #8892b0;
+    --green: #2ecc71;
+    --blue: #3498db;
+    --orange: #f39c12;
+    --red: #e74c3c;
+    --gray: #636e72;
+    --gold: #f1c40f;
+    --purple: #9b59b6;
+    --teal: #1abc9c;
+    --phase-w: 280px;
+    --layer-h: 90px;
+    --sublayer-h: 72px;
+    --header-h: 56px;
+    --layer-label-w: 180px;
+    --panel-w: 420px;
   }
-  body { font-family:system-ui,-apple-system,sans-serif; background:var(--body-bg); color:var(--text); font-size:13px; line-height:1.5; }
 
-  header { background:white; border-bottom:1px solid var(--border); padding:10px 16px; position:sticky; top:0; z-index:200; box-shadow:var(--shadow); display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap; }
-  .header-left h1 { font-size:14px; font-weight:600; }
-  .header-left p { font-size:11px; color:var(--text-s); margin-top:1px; }
-  .legend { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
-  .leg-item { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--text-s); white-space:nowrap; }
-  .leg-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
-  .leg-gap { background:var(--red-m); border:1.5px solid var(--red); }
-  .leg-nav { background:var(--azul-m); border:1.5px solid var(--azul); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  .toolbar { background:white; border-bottom:1px solid var(--border); padding:6px 16px; display:flex; gap:6px; flex-wrap:wrap; align-items:center; position:sticky; top:57px; z-index:190; }
-  .tb-btn { display:inline-flex; align-items:center; gap:5px; font-size:11px; padding:5px 10px; border:1px solid var(--border-h); border-radius:5px; background:white; cursor:pointer; color:var(--text-s); transition:background .15s; white-space:nowrap; }
-  .tb-btn:hover { background:var(--gray-l); }
-  .tb-btn svg { width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; }
-  .tb-btn.primary { background:#1a1a18; color:white; border-color:#1a1a18; }
-  .tb-btn.primary:hover { background:#333; }
-  .tb-btn.success { background:#0F6E56; color:white; border-color:#0F6E56; }
-  .tb-btn.success:hover { background:#0a5040; }
-  .tb-btn.danger { background:var(--red-l); color:var(--red); border-color:var(--red-m); }
-  .tb-sep { width:1px; height:22px; background:var(--border); margin:0 2px; }
-
-  /* STATUS BAR */
-  .status-bar { background:var(--gray-l); border-bottom:1px solid var(--border); padding:4px 16px; font-size:10px; color:var(--text-s); display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
-  .status-dot { width:7px; height:7px; border-radius:50%; display:inline-block; margin-right:3px; }
-  .status-dot.ok { background:#0F6E56; }
-  .status-dot.warn { background:#FAC775; }
-  .status-dot.err { background:var(--red); }
-  .version-list { display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
-  .ver-chip { font-size:10px; padding:2px 7px; border-radius:10px; border:1px solid var(--border-h); background:white; cursor:pointer; color:var(--text-s); }
-  .ver-chip:hover { background:var(--azul-l); color:var(--azul); border-color:var(--azul-m); }
-  .ver-chip.active { background:var(--azul-l); color:var(--azul); border-color:var(--azul); font-weight:600; }
-
-  .container { padding:14px 12px 40px; overflow-x:auto; }
-  table { border-collapse:collapse; min-width:860px; width:100%; background:white; border-radius:8px; overflow:hidden; box-shadow:var(--shadow); }
-  thead tr th { padding:8px 8px; border:1px solid var(--border); font-weight:600; font-size:11px; text-align:center; vertical-align:middle; line-height:1.3; position:relative; }
-  th.col-actor { background:var(--gray-l); color:var(--gray); width:100px; font-size:10px; text-align:left; padding-left:8px; }
-  th.col-actor-head { background:#1a1a18; color:white; width:100px; }
-  th.col-stage { background:#1a1a18; color:white; }
-  th.col-stage .stage-title { font-size:11px; font-weight:500; display:block; outline:none; }
-  th.col-stage .stage-sub { font-size:9px; font-weight:400; opacity:.6; display:block; margin-top:2px; outline:none; }
-  th.col-stage:hover .col-controls { opacity:1; }
-  .col-controls { position:absolute; top:3px; right:3px; display:flex; gap:2px; opacity:0; transition:opacity .15s; }
-  .col-ctrl-btn { background:rgba(255,255,255,.15); border:none; border-radius:3px; cursor:pointer; padding:2px 4px; font-size:9px; color:white; line-height:1; }
-  .col-ctrl-btn:hover { background:rgba(255,255,255,.3); }
-
-  tr.section-sep td { padding:4px 10px; font-size:9.5px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; border:1px solid var(--border); border-top:2px solid var(--border-h); position:relative; }
-  tr.section-sep td:hover .row-controls { opacity:1; }
-  .sec-paciente  { background:var(--purple-l); color:var(--purple); }
-  .sec-frontstage{ background:var(--teal-l);   color:var(--teal); }
-  .sec-bk-clin   { background:var(--amber-l);  color:var(--amber); }
-  .sec-bk-admin  { background:var(--coral-l);  color:var(--coral); }
-  .sec-nav       { background:var(--azul-l);   color:var(--azul); }
-  .sec-aps       { background:var(--green-l);  color:var(--green); }
-  .sec-sistemas  { background:var(--gray-l);   color:var(--gray); }
-
-  td { border:1px solid var(--border); padding:7px 8px; vertical-align:top; position:relative; }
-  td.actor-cell { font-weight:600; font-size:11px; color:var(--text-s); width:100px; background:#fafaf8; line-height:1.4; }
-  tr:not(.section-sep):hover td { background:#fdfcf9; }
-  tr:not(.section-sep):hover .row-controls { opacity:1; }
-
-  .cell-wrap { position:relative; }
-  .cell-main { font-size:11px; color:var(--text); line-height:1.5; outline:none; min-height:16px; }
-  .cell-main:focus { background:rgba(24,95,165,.04); border-radius:3px; }
-  .gap-tag { display:block; margin-top:4px; font-size:10px; color:var(--red); background:var(--red-l); border-left:2.5px solid var(--red); padding:2px 5px; border-radius:0 3px 3px 0; line-height:1.4; outline:none; }
-  .nav-tag { display:block; margin-top:4px; font-size:10px; color:var(--azul); background:var(--azul-l); border-left:2.5px solid var(--azul); padding:2px 5px; border-radius:0 3px 3px 0; line-height:1.4; outline:none; }
-  .empty { color:var(--text-xs); font-size:11px; text-align:center; opacity:.35; }
-
-  .cell-add-btns { display:none; gap:4px; margin-top:5px; flex-wrap:wrap; }
-  td:hover .cell-add-btns, td:focus-within .cell-add-btns { display:flex; }
-  .add-tag-btn { font-size:9px; padding:2px 6px; border:1px dashed; border-radius:3px; cursor:pointer; background:transparent; line-height:1.4; }
-  .add-gap-btn { color:var(--red); border-color:var(--red-m); }
-  .add-gap-btn:hover { background:var(--red-l); }
-  .add-nav-btn { color:var(--azul); border-color:var(--azul-m); }
-  .add-nav-btn:hover { background:var(--azul-l); }
-  .del-tag { font-size:9px; cursor:pointer; opacity:.4; margin-left:3px; }
-  .del-tag:hover { opacity:1; }
-
-  .row-controls { position:absolute; right:4px; top:50%; transform:translateY(-50%); display:flex; gap:3px; opacity:0; transition:opacity .15s; z-index:10; }
-  .row-ctrl-btn { background:white; border:1px solid var(--border-h); border-radius:4px; cursor:pointer; padding:2px 5px; font-size:9px; color:var(--text-s); line-height:1.2; white-space:nowrap; }
-  .row-ctrl-btn:hover { background:var(--gray-l); }
-  .row-ctrl-btn.del { color:var(--red); }
-  .row-ctrl-btn.del:hover { background:var(--red-l); }
-
-  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:500; display:flex; align-items:center; justify-content:center; }
-  .modal { background:white; border-radius:10px; padding:20px; width:340px; box-shadow:0 4px 20px rgba(0,0,0,.15); }
-  .modal h3 { font-size:13px; font-weight:600; margin-bottom:12px; }
-  .modal label { font-size:11px; color:var(--text-s); display:block; margin-bottom:4px; }
-  .modal input, .modal select, .modal textarea { width:100%; padding:7px 9px; border:1px solid var(--border-h); border-radius:5px; font-size:12px; margin-bottom:12px; color:var(--text); font-family:inherit; }
-  .modal textarea { resize:vertical; min-height:60px; }
-  .modal input:focus, .modal select:focus, .modal textarea:focus { outline:2px solid var(--azul); border-color:var(--azul); }
-  .modal-btns { display:flex; gap:8px; justify-content:flex-end; margin-top:4px; }
-  .btn-cancel { padding:6px 14px; border:1px solid var(--border-h); border-radius:5px; background:white; cursor:pointer; font-size:12px; color:var(--text-s); }
-  .btn-ok { padding:6px 14px; border:none; border-radius:5px; background:#1a1a18; cursor:pointer; font-size:12px; color:white; }
-  .btn-ok:hover { background:#333; }
-
-  footer { text-align:center; font-size:10px; color:var(--text-xs); padding:10px 16px 6px; }
-
-  @media print {
-    header,footer { position:static; }
-    .toolbar,.status-bar,.col-controls,.row-controls,.cell-add-btns { display:none !important; }
-    .container { padding:0; }
-    body { background:white; }
-    table { box-shadow:none; min-width:0; }
-    td,th { padding:4px 5px; font-size:9px; }
-    .gap-tag,.nav-tag { font-size:8px; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
+
+  /* ── TOP BAR ── */
+  #topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    height: 52px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    z-index: 100;
+  }
+  #topbar .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 700; font-size: 15px; color: var(--text);
+  }
+  #topbar .logo span { color: var(--accent); }
+  #topbar .controls { display: flex; gap: 8px; align-items: center; }
+
+  .btn {
+    padding: 6px 14px; border-radius: 6px; border: 1px solid var(--border);
+    background: var(--surface2); color: var(--text2); font-size: 12px;
+    cursor: pointer; transition: all .15s; white-space: nowrap;
+  }
+  .btn:hover { background: var(--border); color: var(--text); }
+  .btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn.danger { border-color: var(--red); color: var(--red); }
+  .btn.danger:hover { background: var(--red); color: #fff; }
+  .btn.success { border-color: var(--green); color: var(--green); }
+  .btn.success:hover { background: var(--green); color: #fff; }
+
+  .mode-toggle {
+    display: flex; gap: 0; border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
+  }
+  .mode-toggle .btn { border: none; border-radius: 0; }
+
+  /* ── MAIN LAYOUT ── */
+  #main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ── CANVAS WRAPPER ── */
+  #canvas-wrap {
+    flex: 1;
+    overflow: auto;
+    position: relative;
+    background: var(--bg);
+  }
+
+  #canvas {
+    display: grid;
+    position: relative;
+    min-width: max-content;
+  }
+
+  /* ── PHASE HEADERS ── */
+  #phase-header-row {
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--bg);
+    border-bottom: 2px solid var(--border);
+  }
+
+  .corner-cell {
+    width: var(--layer-label-w);
+    min-width: var(--layer-label-w);
+    height: var(--header-h);
+    background: var(--surface);
+    border-right: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; color: var(--text2);
+    letter-spacing: 1px; text-transform: uppercase;
+    flex-shrink: 0;
+    position: sticky; left: 0; z-index: 60;
+  }
+
+  .phase-header {
+    width: var(--phase-w);
+    min-width: var(--phase-w);
+    height: var(--header-h);
+    display: flex; align-items: center; gap: 10px;
+    padding: 0 16px;
+    border-right: 1px solid var(--border);
+    cursor: pointer;
+    transition: background .15s;
+    position: relative;
+  }
+  .phase-header:hover { background: var(--surface2); }
+  .phase-header .ph-icon { font-size: 20px; flex-shrink: 0; }
+  .phase-header .ph-info { flex: 1; min-width: 0; }
+  .phase-header .ph-label {
+    font-size: 10px; font-weight: 700; color: var(--text2);
+    text-transform: uppercase; letter-spacing: .8px; margin-bottom: 2px;
+  }
+  .phase-header .ph-name {
+    font-size: 13px; font-weight: 600; color: var(--text);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .phase-header .ph-bar {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 3px; border-radius: 2px;
+  }
+  .phase-add-btn {
+    width: 52px; min-width: 52px; height: var(--header-h);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text2); font-size: 22px; cursor: pointer;
+    border-left: 1px dashed var(--border);
+    transition: all .15s;
+  }
+  .phase-add-btn:hover { color: var(--accent); background: var(--surface2); }
+
+  /* ── LAYER ROWS ── */
+  .layer-row {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    transition: all .2s;
+  }
+  .layer-row.collapsed .layer-body { display: none; }
+  .layer-row.collapsed .layer-label { border-bottom: none; }
+
+  .layer-label {
+    width: var(--layer-label-w);
+    min-width: var(--layer-label-w);
+    background: var(--surface);
+    border-right: 2px solid var(--border);
+    position: sticky; left: 0; z-index: 40;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+
+  .layer-label-main {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 10px;
+    cursor: pointer;
+    min-height: var(--layer-h);
+    transition: background .15s;
+  }
+  .layer-label-main:hover { background: var(--surface2); }
+
+  .layer-icon { font-size: 18px; flex-shrink: 0; }
+  .layer-name-wrap { flex: 1; min-width: 0; }
+  .layer-name {
+    font-size: 11px; font-weight: 700; color: var(--text);
+    line-height: 1.3; margin-bottom: 2px;
+  }
+  .layer-subtitle { font-size: 9px; color: var(--text2); }
+  .layer-chevron {
+    font-size: 10px; color: var(--text2);
+    transition: transform .2s; flex-shrink: 0;
+  }
+  .layer-row.collapsed .layer-chevron { transform: rotate(-90deg); }
+
+  /* sublayers */
+  .sublayer-label {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 10px 6px 22px;
+    border-top: 1px solid var(--border);
+    min-height: var(--sublayer-h);
+    background: var(--surface);
+    cursor: default;
+  }
+  .sublayer-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+  .sublayer-name { font-size: 10px; color: var(--text2); font-weight: 600; }
+
+  .layer-body { display: flex; flex: 1; }
+
+  .layer-main-cells { display: flex; }
+  .sublayer-rows { display: flex; flex-direction: column; width: 100%; }
+  .sublayer-row { display: flex; border-top: 1px solid var(--border); }
+
+  /* ── CELLS ── */
+  .cell {
+    width: var(--phase-w);
+    min-width: var(--phase-w);
+    min-height: var(--layer-h);
+    border-right: 1px solid var(--border);
+    padding: 8px;
+    display: flex; flex-wrap: wrap; gap: 6px;
+    align-content: flex-start;
+    position: relative;
+  }
+  .cell.sublayer-cell { min-height: var(--sublayer-h); }
+  .cell.droptarget { background: rgba(79,142,247,.08); }
+
+  .cell-add {
+    width: 28px; height: 28px;
+    border: 1px dashed var(--border); border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text2); font-size: 16px; cursor: pointer;
+    transition: all .15s; flex-shrink: 0; align-self: flex-start;
+  }
+  .cell-add:hover { border-color: var(--accent); color: var(--accent); background: rgba(79,142,247,.1); }
+
+  /* ── NODES ── */
+  .node {
+    position: relative;
+    border-radius: 8px;
+    border: 1.5px solid;
+    padding: 6px 8px;
+    cursor: pointer;
+    transition: all .15s;
+    max-width: 220px;
+    min-width: 80px;
+    background: var(--surface);
+  }
+  .node:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,.4); }
+
+  .node-top { display: flex; align-items: flex-start; gap: 5px; margin-bottom: 4px; }
+  .node-type-icon { font-size: 11px; flex-shrink: 0; margin-top: 1px; }
+  .node-title { font-size: 11px; font-weight: 700; color: var(--text); line-height: 1.3; flex: 1; }
+  .node-badges { display: flex; gap: 3px; flex-wrap: wrap; }
+  .badge {
+    font-size: 9px; padding: 1px 5px; border-radius: 10px;
+    font-weight: 700; text-transform: uppercase; letter-spacing: .4px;
+  }
+  .node-flags { display: flex; gap: 3px; margin-top: 2px; }
+  .flag { font-size: 13px; cursor: default; }
+
+  /* status colors */
+  .s-implemented { border-color: var(--green); }
+  .s-implemented .node-status-bar { background: var(--green); }
+  .s-inprogress { border-color: var(--blue); }
+  .s-inprogress .node-status-bar { background: var(--blue); }
+  .s-designed { border-color: var(--gray); }
+  .s-designed .node-status-bar { background: var(--gray); }
+  .s-problem { border-color: var(--red); }
+  .s-problem .node-status-bar { background: var(--red); }
+  .s-bestpractice { border-color: var(--gold); }
+  .s-bestpractice .node-status-bar { background: var(--gold); }
+  .s-notstarted { border-color: var(--border); opacity: .7; }
+  .s-notstarted .node-status-bar { background: var(--border); }
+
+  .node-status-bar {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; border-radius: 6px 6px 0 0;
+  }
+
+  /* type badges */
+  .type-action { background: rgba(79,142,247,.2); color: var(--accent); }
+  .type-touchpoint { background: rgba(155,89,182,.2); color: var(--purple); }
+
+  /* ── PANEL LATERAL ── */
+  #side-panel {
+    width: var(--panel-w);
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    transition: width .25s ease;
+    flex-shrink: 0;
+  }
+  #side-panel.closed { width: 0; border-left: none; }
+
+  #panel-header {
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+  }
+  #panel-title { font-size: 14px; font-weight: 700; color: var(--text); }
+  #panel-close {
+    width: 28px; height: 28px; border-radius: 6px;
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text2); font-size: 16px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .15s;
+  }
+  #panel-close:hover { background: var(--red); color: #fff; border-color: var(--red); }
+
+  #panel-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
+
+  .field-group { margin-bottom: 16px; }
+  .field-label {
+    font-size: 10px; font-weight: 700; color: var(--text2);
+    text-transform: uppercase; letter-spacing: .8px; margin-bottom: 6px;
+    display: block;
+  }
+  .field-input, .field-textarea, .field-select {
+    width: 100%; background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text); border-radius: 6px; padding: 8px 10px;
+    font-size: 12px; font-family: inherit;
+    transition: border-color .15s; resize: vertical;
+  }
+  .field-input:focus, .field-textarea:focus, .field-select:focus {
+    outline: none; border-color: var(--accent);
+  }
+  .field-textarea { min-height: 72px; }
+
+  .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .status-opt {
+    padding: 7px 10px; border-radius: 6px; border: 1.5px solid var(--border);
+    font-size: 11px; font-weight: 600; cursor: pointer; text-align: center;
+    transition: all .15s;
+  }
+  .status-opt:hover { opacity: .8; transform: scale(1.02); }
+  .status-opt.selected { opacity: 1; }
+
+  .flag-grid { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+  .flag-btn {
+    padding: 5px 10px; border-radius: 20px; border: 1.5px solid var(--border);
+    font-size: 12px; cursor: pointer; background: var(--surface2);
+    transition: all .15s;
+  }
+  .flag-btn.active { border-color: var(--accent); background: rgba(79,142,247,.2); }
+  .flag-btn:hover { border-color: var(--accent); }
+
+  .type-grid { display: flex; gap: 8px; margin-top: 4px; }
+  .type-btn {
+    flex: 1; padding: 7px; border-radius: 6px; border: 1.5px solid var(--border);
+    font-size: 11px; font-weight: 600; cursor: pointer; text-align: center;
+    background: var(--surface2); color: var(--text2); transition: all .15s;
+  }
+  .type-btn.active-action { border-color: var(--accent); color: var(--accent); background: rgba(79,142,247,.15); }
+  .type-btn.active-touchpoint { border-color: var(--purple); color: var(--purple); background: rgba(155,89,182,.15); }
+
+  #panel-footer {
+    padding: 12px 20px; border-top: 1px solid var(--border);
+    display: flex; gap: 8px; flex-shrink: 0;
+  }
+  #btn-save { flex: 1; padding: 9px; border-radius: 6px; border: none;
+    background: var(--accent); color: #fff; font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: opacity .15s; }
+  #btn-save:hover { opacity: .85; }
+  #btn-delete { padding: 9px 14px; border-radius: 6px; border: 1.5px solid var(--red);
+    background: transparent; color: var(--red); font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: all .15s; }
+  #btn-delete:hover { background: var(--red); color: #fff; }
+
+  /* ── PRESENTATION MODE ── */
+  body.presentation #topbar .edit-only { display: none; }
+  body.presentation .cell-add { display: none; }
+  body.presentation #side-panel { width: 0 !important; border: none; }
+  body.presentation .node { cursor: default; }
+  body.presentation #topbar { background: #060810; border-bottom-color: #111; }
+
+  /* ── LEGEND ── */
+  #legend {
+    padding: 8px 20px; background: var(--surface);
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    flex-shrink: 0;
+  }
+  .leg-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--text2); }
+  .leg-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+  /* ── MODAL ── */
+  #modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,.7);
+    display: none; align-items: center; justify-content: center; z-index: 200;
+  }
+  #modal-overlay.open { display: flex; }
+  #modal {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 24px; width: 400px; max-width: 90vw;
+  }
+  #modal h3 { font-size: 16px; margin-bottom: 16px; color: var(--text); }
+  #modal .field-group { margin-bottom: 12px; }
+  #modal-footer { display: flex; gap: 8px; margin-top: 16px; }
+  #modal-footer .btn { flex: 1; padding: 9px; border-radius: 6px; font-size: 13px; font-weight: 700; }
+  #modal-confirm { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text2); }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="header-left">
-    <h1>Mapa de Servicios — Gestión Oncológica CC · Navegadores en Red</h1>
-    <p>Hospital Puerto Montt · Servicio de Salud del Reloncaví · Versión taller, junio 2026</p>
+<!-- TOP BAR -->
+<div id="topbar">
+  <div class="logo">
+    <span>⬡</span> Blueprint Oncológico <span style="color:var(--text2);font-weight:400;font-size:12px;margin-left:4px">Plan 90 Días · HPM / SSDR</span>
   </div>
-  <div class="legend">
-    <div class="leg-item"><div class="leg-dot leg-gap"></div> Brecha identificada</div>
-    <div class="leg-item"><div class="leg-dot leg-nav"></div> Nodo articulación NAV</div>
-  </div>
-</header>
-
-<div class="toolbar">
-  <button class="tb-btn" onclick="addColumn()">
-    <svg viewBox="0 0 24 24"><rect x="14" y="3" width="7" height="18" rx="1"/><path d="M3 12h7M6.5 8.5v7"/></svg>Columna
-  </button>
-  <button class="tb-btn" onclick="openAddRowModal()">
-    <svg viewBox="0 0 24 24"><rect x="3" y="14" width="18" height="7" rx="1"/><path d="M12 3v7M8.5 6.5h7"/></svg>Fila
-  </button>
-  <button class="tb-btn" onclick="toggleEdit()">
-    <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-    <span id="edit-label">Editar</span>
-  </button>
-  <div class="tb-sep"></div>
-  <button class="tb-btn success" onclick="openSaveModal()">
-    <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-    Guardar versión
-  </button>
-  <div class="tb-sep"></div>
-  <button class="tb-btn" onclick="window.print()">
-    <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Imprimir
-  </button>
-</div>
-
-<div class="status-bar">
-  <span id="fb-status"><span class="status-dot warn"></span>Conectando con Firebase...</span>
-  <span id="last-saved" style="color:var(--text-xs)"></span>
-  <span style="color:var(--text-xs);margin-left:auto">Versiones guardadas:</span>
-  <div class="version-list" id="version-list"><span style="color:var(--text-xs);font-size:10px">—</span></div>
-</div>
-
-<div class="container">
-<table id="main-table">
-  <thead id="thead-row">
-    <tr>
-      <th class="col-actor-head"></th>
-      <th class="col-stage" data-col="0"><span class="stage-title" contenteditable="false">1. Derivación e ingreso</span><span class="stage-sub" contenteditable="false">Puerta de entrada</span><div class="col-controls"><button class="col-ctrl-btn" onclick="addColBefore(0)">◀+</button><button class="col-ctrl-btn" onclick="addColAfter(0)">+▶</button><button class="col-ctrl-btn" onclick="deleteCol(0)">✕</button></div></th>
-      <th class="col-stage" data-col="1"><span class="stage-title" contenteditable="false">2. Confirmación diagnóstica</span><span class="stage-sub" contenteditable="false">Imagen · biopsia · AP</span><div class="col-controls"><button class="col-ctrl-btn" onclick="addColBefore(1)">◀+</button><button class="col-ctrl-btn" onclick="addColAfter(1)">+▶</button><button class="col-ctrl-btn" onclick="deleteCol(1)">✕</button></div></th>
-      <th class="col-stage" data-col="2"><span class="stage-title" contenteditable="false">3. Definición plan oncológico</span><span class="stage-sub" contenteditable="false">Comité · hitos GES</span><div class="col-controls"><button class="col-ctrl-btn" onclick="addColBefore(2)">◀+</button><button class="col-ctrl-btn" onclick="addColAfter(2)">+▶</button><button class="col-ctrl-btn" onclick="deleteCol(2)">✕</button></div></th>
-      <th class="col-stage" data-col="3"><span class="stage-title" contenteditable="false">4. Tratamiento activo</span><span class="stage-sub" contenteditable="false">QMT · RDT · extrasistema</span><div class="col-controls"><button class="col-ctrl-btn" onclick="addColBefore(3)">◀+</button><button class="col-ctrl-btn" onclick="addColAfter(3)">+▶</button><button class="col-ctrl-btn" onclick="deleteCol(3)">✕</button></div></th>
-      <th class="col-stage" data-col="4"><span class="stage-title" contenteditable="false">5. Seguimiento y control</span><span class="stage-sub" contenteditable="false">Monitoreo · contactabilidad</span><div class="col-controls"><button class="col-ctrl-btn" onclick="addColBefore(4)">◀+</button><button class="col-ctrl-btn" onclick="addColAfter(4)">+▶</button><button class="col-ctrl-btn" onclick="deleteCol(4)">✕</button></div></th>
-      <th class="col-stage" data-col="5"><span class="stage-title" contenteditable="false">6. Alta y contrarreferencia</span><span class="stage-sub" contenteditable="false">Continuidad de cuidado</span><div class="col-controls"><button class="col-ctrl-btn" onclick="addColBefore(5)">◀+</button><button class="col-ctrl-btn" onclick="addColAfter(5)">+▶</button><button class="col-ctrl-btn" onclick="deleteCol(5)">✕</button></div></th>
-    </tr>
-  </thead>
-  <tbody id="tbody">
-    <tr class="section-sep" data-section="paciente"><td colspan="100" class="sec-paciente">Experiencia del paciente<div class="row-controls"><button class="row-ctrl-btn" onclick="addRowAfterSection(this)">+ fila</button><button class="row-ctrl-btn del" onclick="deleteSection(this)">✕</button></div></td></tr>
-    <tr data-section="paciente">
-      <td class="actor-cell" contenteditable="false">Paciente / familia</td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Ingresa por urgencia, CESFAM, extrasistema o ambulatorio</div><span class="gap-tag" contenteditable="false">⚑ Vías diversas sin flujo unificado<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Realiza exámenes de imagen y biopsia; aguarda resultados</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Participa en comité; recibe y comprende plan de tratamiento</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Asiste a QMT/RDT; gestiona traslados y barreras de acceso</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Controles periódicos; autocuidado y educación en salud</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Recibe indicaciones al alta; retorna a APS</div><span class="gap-tag" contenteditable="false">⚑ Brecha de información al momento del alta<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-    </tr>
-    <tr class="section-sep" data-section="frontstage"><td colspan="100" class="sec-frontstage">Frontstage — Gestora de casos CC<div class="row-controls"><button class="row-ctrl-btn" onclick="addRowAfterSection(this)">+ fila</button><button class="row-ctrl-btn del" onclick="deleteSection(this)">✕</button></div></td></tr>
-    <tr data-section="frontstage">
-      <td class="actor-cell" contenteditable="false">Gestora CC</td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Apertura de caso GES/No GES; asignación interna</div><span class="nav-tag" contenteditable="false">↗ NAV: contacto inicial y vinculación<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Coordina cupos imagenología (5 diarios); gestiona biopsia</div><span class="gap-tag" contenteditable="false">⚑ Demora informes &gt;1 mes<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Prepara antecedentes para comité; registra hito QMT/RDT</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Seguimiento clínico; contactabilidad; educación en salud</div><span class="gap-tag" contenteditable="false">⚑ 600–1.200 casos por gestora<span class="del-tag" onclick="removeTag(this)">✕</span></span><span class="nav-tag" contenteditable="false">↗ NAV: gestión NSP, preparación cita, post-atención<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Monitoreo activo; detección de desviaciones clínicas</div><span class="nav-tag" contenteditable="false">↗ NAV: contacto frecuencia alta/media<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Contrarreferencia; cierre garantía GES</div><span class="gap-tag" contenteditable="false">⚑ Brecha coordinación con gestores APS<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-    </tr>
-    <tr class="section-sep" data-section="bkclin"><td colspan="100" class="sec-bk-clin">Backstage clínico — decisiones y criterios<div class="row-controls"><button class="row-ctrl-btn" onclick="addRowAfterSection(this)">+ fila</button><button class="row-ctrl-btn del" onclick="deleteSection(this)">✕</button></div></td></tr>
-    <tr data-section="bkclin">
-      <td class="actor-cell" contenteditable="false">Enf. coordin. / médico tratante</td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Triage por vía de ingreso; priorización clínica inicial</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Revisión e interpretación de resultados; decisión de derivación a comité</div><span class="gap-tag" contenteditable="false">⚑ Integración Anatomía Patológica a ficha clínica<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Comité oncológico: definición plan; indicación hito QMT/RDT</div><span class="gap-tag" contenteditable="false">⚑ Hito marcado en indicación, no en inicio efectivo (+4 días / posible rechazo)<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Decisiones de ajuste de tratamiento; manejo de efectos adversos</div><span class="gap-tag" contenteditable="false">⚑ Sin retroalimentación clínica de pacientes en radioterapia<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Evaluación de respuesta; criterio de alta o continuidad</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Criterio médico de alta; instrucciones clínicas para APS</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-    </tr>
-    <tr class="section-sep" data-section="bkadmin"><td colspan="100" class="sec-bk-admin">Backstage administrativo — registro y coordinación operativa<div class="row-controls"><button class="row-ctrl-btn" onclick="addRowAfterSection(this)">+ fila</button><button class="row-ctrl-btn del" onclick="deleteSection(this)">✕</button></div></td></tr>
-    <tr data-section="bkadmin">
-      <td class="actor-cell" contenteditable="false">UGE / admin. CC</td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Admisión; registro en sistemas; asignación de ficha</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Gestión de agenda imagenología; trazabilidad de cupos</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Registro de hitos GES; coordinación extrasistema</div><span class="gap-tag" contenteditable="false">⚑ Extrasistema sin acceso a ficha clínica HPM<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Carga en SIGO; actualización planillas Excel; gestión garantías</div><span class="gap-tag" contenteditable="false">⚑ SIGO: 45 min/paciente; sin carga masiva; 4ª plataforma MINSAL<span class="del-tag" onclick="removeTag(this)">✕</span></span><span class="gap-tag" contenteditable="false">⚑ Información distribuida en múltiples sistemas<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Mantención planillas Excel; seguimiento Plan Anual de Actividades</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Documentación alta; reporte REM; cierre administrativo</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-    </tr>
-    <tr class="section-sep" data-section="nav"><td colspan="100" class="sec-nav">Navegadores en Red — Unidad de Gestión Territorial (UGT)<div class="row-controls"><button class="row-ctrl-btn" onclick="addRowAfterSection(this)">+ fila</button><button class="row-ctrl-btn del" onclick="deleteSection(this)">✕</button></div></td></tr>
-    <tr data-section="nav">
-      <td class="actor-cell" contenteditable="false">Equipo NAV</td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Vinculación inicial; actualización contactos; detección barreras</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main empty" contenteditable="false">—</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main empty" contenteditable="false">—</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Preparación preconsulta; gestión NSP; post-atención; detección barreras</div><span class="nav-tag" contenteditable="false">↗ Operativiza acceso — no decide prioridad clínica<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Contacto frecuencia alta/media; acompañamiento en espera entre ciclos</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Coordinación territorial al alta; derivación a APS con información</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-    </tr>
-    <tr class="section-sep" data-section="aps"><td colspan="100" class="sec-aps">Red asistencial — APS / CESFAM<div class="row-controls"><button class="row-ctrl-btn" onclick="addRowAfterSection(this)">+ fila</button><button class="row-ctrl-btn del" onclick="deleteSection(this)">✕</button></div></td></tr>
-    <tr data-section="aps">
-      <td class="actor-cell" contenteditable="false">Gestores APS</td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Derivación oncológica; interconsulta a HPM</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main empty" contenteditable="false">—</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main empty" contenteditable="false">—</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main empty" contenteditable="false">—</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Recibe información sobre casos activos en su territorio</div><span class="gap-tag" contenteditable="false">⚑ Sin claridad de casos activos por comuna<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Recibe contrarreferencia; continúa seguimiento local</div><span class="gap-tag" contenteditable="false">⚑ Roles y flujos CC ↔ APS no definidos<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-    </tr>
-    <tr class="section-sep" data-section="sistemas"><td colspan="100" class="sec-sistemas">Soporte — sistemas e información<div class="row-controls"><button class="row-ctrl-btn" onclick="addRowAfterSection(this)">+ fila</button><button class="row-ctrl-btn del" onclick="deleteSection(this)">✕</button></div></td></tr>
-    <tr data-section="sistemas">
-      <td class="actor-cell" contenteditable="false">Sistemas / registros</td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Ficha clínica HPM; admisión</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">RIS imagenología; Anatomía Patológica</div><span class="gap-tag" contenteditable="false">⚑ Sin integración a ficha clínica<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Ficha clínica; registro comité oncológico</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">SIGO · Excel CC (nube propia) · ficha clínica HPM</div><span class="gap-tag" contenteditable="false">⚑ Fragmentación de información entre sistemas<span class="del-tag" onclick="removeTag(this)">✕</span></span><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Excel CC; SIGO; ficha clínica HPM</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-      <td><div class="cell-wrap"><div class="cell-main" contenteditable="false">Contrarreferencia en ficha; REM nivel central</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div></td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-<footer><strong>Hospital Puerto Montt · Servicio de Salud del Reloncaví</strong> · Unidad de Gestión Territorial / Navegadores en Red · Versión preliminar taller participativo, junio 2026</footer>
-
-<!-- Modales -->
-<div id="modal-save" class="modal-overlay" style="display:none">
-  <div class="modal">
-    <h3>Guardar versión</h3>
-    <label>Nombre de esta versión</label>
-    <input type="text" id="save-name" placeholder="Ej: Taller 18 junio — post discusión">
-    <label>Notas (opcional)</label>
-    <textarea id="save-notes" placeholder="Ej: Se agregaron brechas en columna 3 según gestoras"></textarea>
-    <div class="modal-btns">
-      <button class="btn-cancel" onclick="closeModals()">Cancelar</button>
-      <button class="btn-ok" onclick="confirmSave()">Guardar</button>
+  <div class="controls">
+    <div class="mode-toggle edit-only">
+      <button class="btn active" id="btn-work" onclick="setMode('work')">⚙ Trabajo</button>
+      <button class="btn" id="btn-pres" onclick="setMode('presentation')">▶ Presentación</button>
     </div>
+    <button class="btn edit-only" onclick="openAddPhase()">+ Fase</button>
+    <button class="btn edit-only" onclick="exportData()">↓ Exportar</button>
+    <button class="btn" onclick="importData()">↑ Importar</button>
+    <button class="btn" id="btn-pres2" style="display:none" onclick="setMode('work')">← Edición</button>
   </div>
 </div>
-<div id="modal-row" class="modal-overlay" style="display:none">
-  <div class="modal">
-    <h3>Nueva fila</h3>
-    <label>Nombre del actor</label>
-    <input type="text" id="new-actor" placeholder="Ej: Farmacia / Imágenes">
-    <label>Sección</label>
-    <select id="new-section"></select>
-    <div class="modal-btns">
-      <button class="btn-cancel" onclick="closeModals()">Cancelar</button>
-      <button class="btn-ok" onclick="confirmAddRow()">Agregar</button>
+
+<!-- MAIN -->
+<div id="main">
+  <div id="canvas-wrap">
+    <div id="canvas"></div>
+  </div>
+  <div id="side-panel" class="closed">
+    <div id="panel-header">
+      <div id="panel-title">Nodo</div>
+      <button id="panel-close" onclick="closePanel()">✕</button>
     </div>
-  </div>
-</div>
-<div id="modal-col" class="modal-overlay" style="display:none">
-  <div class="modal">
-    <h3 id="modal-col-title">Nueva etapa</h3>
-    <label>Título</label>
-    <input type="text" id="new-col-title" placeholder="Ej: 7. Rehabilitación">
-    <label>Subtítulo (opcional)</label>
-    <input type="text" id="new-col-sub" placeholder="Ej: Kinesio · TENS">
-    <div class="modal-btns">
-      <button class="btn-cancel" onclick="closeModals()">Cancelar</button>
-      <button class="btn-ok" onclick="confirmAddCol()">Agregar</button>
+    <div id="panel-body">
+      <div class="field-group">
+        <label class="field-label">Título</label>
+        <input class="field-input" id="f-title" placeholder="Nombre del nodo">
+      </div>
+      <div class="field-group">
+        <label class="field-label">Tipo</label>
+        <div class="type-grid">
+          <div class="type-btn active-action" id="t-action" onclick="setType('action')">⚡ Acción</div>
+          <div class="type-btn" id="t-touchpoint" onclick="setType('touchpoint')">◎ Touchpoint</div>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Actor responsable</label>
+        <input class="field-input" id="f-actor" placeholder="Ej: Navegador, Médico, FONASA...">
+      </div>
+      <div class="field-group">
+        <label class="field-label">Descripción</label>
+        <textarea class="field-textarea" id="f-desc" placeholder="Describe la acción o touchpoint..."></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Estado</label>
+        <div class="status-grid" id="status-grid"></div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Marcadores</label>
+        <div class="flag-grid" id="flag-grid"></div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Notas adicionales</label>
+        <textarea class="field-textarea" id="f-notes" placeholder="Observaciones, brechas, oportunidades..."></textarea>
+      </div>
+    </div>
+    <div id="panel-footer">
+      <button id="btn-save" onclick="saveNode()">Guardar</button>
+      <button id="btn-delete" onclick="deleteNode()">Eliminar</button>
     </div>
   </div>
 </div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, doc, getDoc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+<!-- LEGEND -->
+<div id="legend">
+  <span style="font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.8px">Estados:</span>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--green)"></div>Implementado</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--blue)"></div>En Proceso</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--gray)"></div>Diseñado</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--red)"></div>Problema</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--gold)"></div>Buena Práctica</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--border)"></div>No Iniciado</div>
+  <span style="margin-left:12px;font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.8px">Tipos:</span>
+  <div class="leg-item">⚡ Acción</div>
+  <div class="leg-item">◎ Touchpoint</div>
+  <div class="leg-item">🚩 Red Flag</div>
+  <div class="leg-item">⭐ Buena Práctica</div>
+  <div class="leg-item">⚠️ Alerta</div>
+  <div class="leg-item">🔗 Vinculación</div>
+</div>
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDo-Jzbu4ZyqUeg-cwfvS76wgI-CR6pjIk",
-  authDomain: "mapa-de-servicio-oncologia.firebaseapp.com",
-  projectId: "mapa-de-servicio-oncologia",
-  storageBucket: "mapa-de-servicio-oncologia.firebasestorage.app",
-  messagingSenderId: "419300391593",
-  appId: "1:419300391593:web:e7be9250ac8df29869c7b8"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-function setStatus(type, msg) {
-  const el = document.getElementById('fb-status');
-  const dots = { ok:'ok', warn:'warn', err:'err' };
-  el.innerHTML = `<span class="status-dot ${dots[type]}"></span>${msg}`;
-}
-
-async function loadVersions() {
-  try {
-    const q = query(collection(db, 'versiones'), orderBy('ts', 'desc'));
-    const snap = await getDocs(q);
-    const list = document.getElementById('version-list');
-    list.innerHTML = '';
-    if (snap.empty) { list.innerHTML = '<span style="color:var(--text-xs);font-size:10px">Sin versiones guardadas</span>'; return; }
-    snap.forEach(d => {
-      const data = d.data();
-      const chip = document.createElement('button');
-      chip.className = 'ver-chip';
-      chip.title = data.notes || '';
-      const dt = data.ts?.toDate ? data.ts.toDate() : new Date();
-      chip.textContent = data.name || dt.toLocaleDateString('es-CL');
-      chip.onclick = () => restoreVersion(d.id, chip);
-      list.appendChild(chip);
-    });
-    setStatus('ok', 'Firebase conectado');
-  } catch(e) {
-    setStatus('err', 'Error al cargar versiones: ' + e.message);
-  }
-}
-
-async function restoreVersion(id, chip) {
-  if (!confirm('¿Cargar esta versión? Los cambios no guardados se perderán.')) return;
-  try {
-    const snap = await getDoc(doc(db, 'versiones', id));
-    if (!snap.exists()) return;
-    document.getElementById('main-table').outerHTML = snap.data().html;
-    document.querySelectorAll('.ver-chip').forEach(c => c.classList.remove('active'));
-    chip.classList.add('active');
-    document.getElementById('last-saved').textContent = 'Versión cargada: ' + (snap.data().name || '');
-  } catch(e) {
-    alert('Error al restaurar: ' + e.message);
-  }
-}
-
-window._saveToFirebase = async function(name, notes) {
-  try {
-    setStatus('warn', 'Guardando...');
-    const html = document.getElementById('main-table').outerHTML;
-    await addDoc(collection(db, 'versiones'), {
-      name, notes, html,
-      ts: new Date()
-    });
-    const now = new Date().toLocaleString('es-CL');
-    document.getElementById('last-saved').textContent = 'Último guardado: ' + now;
-    setStatus('ok', 'Firebase conectado');
-    await loadVersions();
-  } catch(e) {
-    setStatus('err', 'Error al guardar: ' + e.message);
-    alert('Error al guardar: ' + e.message);
-  }
-};
-
-loadVersions();
-</script>
+<!-- MODAL -->
+<div id="modal-overlay">
+  <div id="modal">
+    <h3 id="modal-title">Nueva Fase</h3>
+    <div class="field-group">
+      <label class="field-label">Nombre de la fase</label>
+      <input class="field-input" id="modal-name" placeholder="Ej: Diagnóstico Confirmatorio">
+    </div>
+    <div class="field-group">
+      <label class="field-label">Ícono (emoji)</label>
+      <input class="field-input" id="modal-icon" placeholder="🔬" style="font-size:18px">
+    </div>
+    <div class="field-group">
+      <label class="field-label">Color de fase</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px" id="modal-colors"></div>
+    </div>
+    <div id="modal-footer">
+      <button class="btn" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-modal-confirm" id="modal-confirm" onclick="confirmModal()">Crear</button>
+    </div>
+  </div>
+</div>
 
 <script>
-let editMode = false;
-let pendingColAction = null;
+// ══════════════════════════════════════════════════
+//  DATA MODEL
+// ══════════════════════════════════════════════════
+const STATUSES = [
+  { id:'implemented', label:'Implementado', color:'var(--green)', cls:'s-implemented' },
+  { id:'inprogress',  label:'En Proceso',   color:'var(--blue)',  cls:'s-inprogress' },
+  { id:'designed',    label:'Diseñado',     color:'var(--gray)',  cls:'s-designed' },
+  { id:'problem',     label:'Problema',     color:'var(--red)',   cls:'s-problem' },
+  { id:'bestpractice',label:'Buena Práctica',color:'var(--gold)', cls:'s-bestpractice' },
+  { id:'notstarted',  label:'No Iniciado',  color:'var(--border)',cls:'s-notstarted' },
+];
 
-function toggleEdit() {
-  editMode = !editMode;
-  document.getElementById('edit-label').textContent = editMode ? 'Desactivar edición' : 'Editar';
-  const ce = editMode ? 'true' : 'false';
-  document.querySelectorAll('.cell-main,.gap-tag,.nav-tag,.actor-cell').forEach(el => el.contentEditable = ce);
-  document.querySelectorAll('.col-stage .stage-title,.col-stage .stage-sub').forEach(el => el.contentEditable = ce);
-  document.querySelectorAll('tr.section-sep td').forEach(td => {
-    if (editMode) {
-      const t = td.childNodes[0];
-      if (t && t.nodeType === 3) {
-        const s = document.createElement('span');
-        s.contentEditable = 'true'; s.className = 'sec-edit';
-        s.textContent = t.textContent.trim();
-        td.insertBefore(s, td.firstChild); t.remove();
-      }
-    } else {
-      const s = td.querySelector('.sec-edit');
-      if (s) { td.insertBefore(document.createTextNode(s.textContent + ' '), td.firstChild); s.remove(); }
+const FLAGS = [
+  { id:'redflag',  emoji:'🚩', label:'Red Flag' },
+  { id:'best',     emoji:'⭐', label:'Buena Práctica' },
+  { id:'alert',    emoji:'⚠️', label:'Alerta' },
+  { id:'link',     emoji:'🔗', label:'Vinculación' },
+  { id:'pending',  emoji:'⏳', label:'Pendiente' },
+  { id:'key',      emoji:'🔑', label:'Clave' },
+];
+
+const PHASE_COLORS = ['#4f8ef7','#2ecc71','#f39c12','#e74c3c','#9b59b6','#1abc9c','#e67e22','#3498db'];
+
+const DEFAULT_LAYERS = [
+  {
+    id:'l-patient', icon:'👤', name:'Experiencia del Paciente', subtitle:'4 perfiles',
+    color:'#4f8ef7', collapsed:false,
+    sublayers:[
+      { id:'sl-ges',     name:'Paciente GES Oncológico',        color:'#e74c3c' },
+      { id:'sl-noges',   name:'Paciente No GES (Cirugía/CE)',    color:'#f39c12' },
+      { id:'sl-cuidador',name:'Familiar / Cuidador',             color:'#9b59b6' },
+      { id:'sl-rural',   name:'Paciente Territorio Disperso',    color:'#1abc9c' },
+    ]
+  },
+  { id:'l-clinical', icon:'🩺', name:'Frontstage Clínico', subtitle:'Actos visibles al paciente', color:'#2ecc71', collapsed:false, sublayers:[] },
+  { id:'l-admin',    icon:'📋', name:'Frontstage Administrativo', subtitle:'Gestión visible', color:'#f39c12', collapsed:false, sublayers:[] },
+  { id:'l-back',     icon:'⚙️', name:'Backstage / Soporte', subtitle:'Operaciones internas', color:'#8892b0', collapsed:false, sublayers:[] },
+  { id:'l-tech',     icon:'💻', name:'Sistemas y Tecnología', subtitle:'Plataformas y datos', color:'#9b59b6', collapsed:false, sublayers:[] },
+];
+
+const DEFAULT_PHASES = [
+  { id:'p1', icon:'📋', name:'Levantamiento y Consolidación', color:'#4f8ef7', label:'Fase 1' },
+  { id:'p2', icon:'📞', name:'Contacto y Vinculación', color:'#f39c12', label:'Fase 2' },
+  { id:'p3', icon:'🗓️', name:'Agendamiento y Resolución', color:'#2ecc71', label:'Fase 3' },
+  { id:'p4', icon:'🔬', name:'Confirmación Diagnóstica', color:'#9b59b6', label:'Fase 4' },
+  { id:'p5', icon:'💉', name:'Inicio Tratamiento', color:'#e74c3c', label:'Fase 5' },
+  { id:'p6', icon:'🤝', name:'Acompañamiento y Seguimiento', color:'#1abc9c', label:'Fase 6' },
+];
+
+// cellId = `${layerId}||${sublayerId}||${phaseId}` (sublayerId='' if main)
+function makeKey(layerId, sublayerId, phaseId) {
+  return `${layerId}||${sublayerId||''}||${phaseId}`;
+}
+
+let state = {
+  phases: [],
+  layers: [],
+  cells: {}, // cellKey -> [{id, title, type, actor, desc, status, flags, notes}]
+  mode: 'work',
+};
+
+// ── LOAD / SAVE ──
+function loadState() {
+  try {
+    const saved = localStorage.getItem('onco_blueprint_v3');
+    if (saved) { state = JSON.parse(saved); return; }
+  } catch(e) {}
+  state.phases = JSON.parse(JSON.stringify(DEFAULT_PHASES));
+  state.layers = JSON.parse(JSON.stringify(DEFAULT_LAYERS));
+  state.cells = {};
+  seedDemoData();
+}
+
+function saveState() {
+  try { localStorage.setItem('onco_blueprint_v3', JSON.stringify(state)); } catch(e) {}
+}
+
+function seedDemoData() {
+  // Phase 1 seeds
+  addNodeToCell('l-patient','sl-ges','p1',{
+    title:'Identificación GES Retrasado', type:'action', actor:'FONASA / Minsal',
+    status:'implemented', flags:['key'],
+    desc:'Identificación de 33.702 pacientes oncológicos GES con garantías retrasadas al 31/01/2026.',
+    notes:'Base oficial validada por FONASA, Redes Asistenciales, Salud Pública y Minsal.'
+  });
+  addNodeToCell('l-patient','sl-noges','p1',{
+    title:'Identificación No GES', type:'action', actor:'Hospital / SSDR',
+    status:'implemented', flags:[],
+    desc:'Levantamiento de pacientes con cirugías o consultas de nueva especialidad no GES en espera.',
+    notes:''
+  });
+  addNodeToCell('l-back','','p1',{
+    title:'Consolidado Lista HPM', type:'action', actor:'UGT / Navegadores',
+    status:'implemented', flags:['key'],
+    desc:'Construcción del listado local HPM a partir de la base MINSAL, cruzado con SIGTE.',
+    notes:'Inicia flujo NAV-AÑO-ONCOL-000000'
+  });
+  addNodeToCell('l-tech','','p1',{
+    title:'Planilla SIGTE + NAV ID', type:'action', actor:'Paulo / UGT',
+    status:'inprogress', flags:['alert'],
+    desc:'Asignación de ID único Navegadores a cada caso del consolidado oncológico.',
+    notes:'Arquitectura separada: datos identificados OneDrive / operativos Google Sheets.'
+  });
+  // Phase 2 seeds
+  addNodeToCell('l-patient','sl-ges','p2',{
+    title:'Llamada de Vinculación', type:'touchpoint', actor:'Navegador / Ivania',
+    status:'implemented', flags:['link'],
+    desc:'Contacto telefónico inicial con el paciente para informar, vincular y registrar barreras de acceso.',
+    notes:'Script estructurado. Registro en planilla operativa.'
+  });
+  addNodeToCell('l-patient','sl-rural','p2',{
+    title:'Vinculación Territorio Disperso', type:'touchpoint', actor:'Navegador',
+    status:'inprogress', flags:['redflag'],
+    desc:'Contacto con pacientes de comunas de difícil acceso (Cochamó, Palena, Hualaihué).',
+    notes:'Barrera crítica: conectividad y desplazamiento. Requiere coordinación territorial.'
+  });
+  addNodeToCell('l-admin','','p2',{
+    title:'Salud Responde 600 360 7777', type:'touchpoint', actor:'FONASA',
+    status:'implemented', flags:['link'],
+    desc:'Canal ministerial para casos oncológicos con espera prolongada. Vincula al hospital de origen.',
+    notes:''
+  });
+  addNodeToCell('l-back','','p2',{
+    title:'Evaluación Capacidad Resolutiva', type:'action', actor:'Hospital',
+    status:'inprogress', flags:[],
+    desc:'HPM evalúa si puede resolver el caso en horario habitual o requiere extensión horaria o 2° prestador.',
+    notes:'Extensión horaria disponible post 17h y fines de semana (Alerta Sanitaria).'
+  });
+  addNodeToCell('l-tech','','p2',{
+    title:'Registro Estado Caso', type:'action', actor:'Navegador / UGT',
+    status:'inprogress', flags:[],
+    desc:'Actualización del estado de contacto y vinculación en sistema Gestor de Casos NAV.',
+    notes:''
+  });
+  // Phase 3
+  addNodeToCell('l-patient','sl-ges','p3',{
+    title:'Agendamiento Confirmado', type:'touchpoint', actor:'Ventanilla / Unidad',
+    status:'inprogress', flags:['best'],
+    desc:'Paciente recibe hora para confirmación diagnóstica o inicio de tratamiento en HPM.',
+    notes:'Preferencia: atención en hospital de origen.'
+  });
+  addNodeToCell('l-patient','sl-ges','p3',{
+    title:'Derivación 2° Prestador', type:'action', actor:'HPM / FONASA',
+    status:'designed', flags:['alert'],
+    desc:'Si HPM no tiene capacidad, se activa 2° prestador privado acreditado. Sin costo para el paciente.',
+    notes:'16 nuevos prestadores habilitados para Plan Alerta Oncológica.'
+  });
+  addNodeToCell('l-patient','sl-cuidador','p3',{
+    title:'Información a Familiar', type:'touchpoint', actor:'Navegador',
+    status:'designed', flags:[],
+    desc:'Comunicación al cuidador principal sobre el proceso, lugar y fecha de atención.',
+    notes:''
+  });
+  addNodeToCell('l-clinical','','p3',{
+    title:'Extensión Horaria Clínica', type:'action', actor:'Hospital',
+    status:'inprogress', flags:['alert'],
+    desc:'Habilitación de horarios post 17h y fines de semana para diagnóstico y cirugía oncológica.',
+    notes:'Autorizado por Alerta Sanitaria Oncológica vigente.'
+  });
+  // Phase 4
+  addNodeToCell('l-clinical','','p4',{
+    title:'Confirmación Diagnóstica', type:'action', actor:'Equipo Clínico',
+    status:'designed', flags:[],
+    desc:'Realización de exámenes, imágenes o biopsia para confirmar diagnóstico oncológico.',
+    notes:''
+  });
+  addNodeToCell('l-patient','sl-ges','p4',{
+    title:'Entrega de Diagnóstico', type:'touchpoint', actor:'Médico Tratante',
+    status:'designed', flags:['key'],
+    desc:'Comunicación del diagnóstico al paciente y familiar. Inicio de proceso psicooncológico si aplica.',
+    notes:'Momento de alto impacto emocional. Requiere acompañamiento.'
+  });
+  addNodeToCell('l-back','','p4',{
+    title:'Registro Plataforma Oncológica', type:'action', actor:'Hospital',
+    status:'notstarted', flags:['alert'],
+    desc:'Registro en Plataforma de Seguimiento Oncológico MINSAL.',
+    notes:'Brecha identificada: subregistro histórico en HPM.'
+  });
+  // Phase 5
+  addNodeToCell('l-clinical','','p5',{
+    title:'Inicio Tratamiento', type:'action', actor:'Equipo Clínico',
+    status:'designed', flags:['key'],
+    desc:'Inicio de cirugía, quimioterapia, radioterapia u otro tratamiento según diagnóstico.',
+    notes:'Meta: todos los pacientes del plan en vías de resolución al 31/06/2026.'
+  });
+  addNodeToCell('l-patient','sl-ges','p5',{
+    title:'Consentimiento Informado', type:'touchpoint', actor:'Médico / Enfermera',
+    status:'designed', flags:[],
+    desc:'Proceso de información y firma de consentimiento para inicio de tratamiento.',
+    notes:''
+  });
+  // Phase 6
+  addNodeToCell('l-patient','sl-ges','p6',{
+    title:'Llamada de Seguimiento', type:'touchpoint', actor:'Navegador / Ivania',
+    status:'designed', flags:['best'],
+    desc:'Contacto post-atención para confirmar adherencia, identificar barreras y registrar evolución.',
+    notes:'Protocolo Navegadores en Red: llamada pre y post consulta.'
+  });
+  addNodeToCell('l-patient','sl-rural','p6',{
+    title:'Seguimiento Territorial', type:'touchpoint', actor:'Navegador',
+    status:'notstarted', flags:['redflag'],
+    desc:'Coordinación con APS local para seguimiento de pacientes en comunas de difícil acceso.',
+    notes:'Brecha crítica pendiente de protocolo.'
+  });
+  addNodeToCell('l-back','','p6',{
+    title:'Reporte Semanal MINSAL', type:'action', actor:'UGT / Paulo',
+    status:'implemented', flags:['key'],
+    desc:'Envío cada viernes del consolidado de avance al MINSAL. Template oficial.',
+    notes:'Proceso Consolidado.cne: generación automatizada de lista de trabajo.'
+  });
+  addNodeToCell('l-tech','','p6',{
+    title:'Dashboard Indicadores NSP', type:'action', actor:'UGT',
+    status:'designed', flags:['alert'],
+    desc:'Visualización de inasistencias (NSP) y trazabilidad de casos por especialidad oncológica.',
+    notes:'En construcción. Integración Excel sidebar Claude.'
+  });
+}
+
+function addNodeToCell(layerId, sublayerId, phaseId, data) {
+  const key = makeKey(layerId, sublayerId, phaseId);
+  if (!state.cells[key]) state.cells[key] = [];
+  state.cells[key].push({ id: uid(), ...data });
+}
+
+function uid() { return Math.random().toString(36).slice(2,10); }
+
+// ══════════════════════════════════════════════════
+//  RENDER
+// ══════════════════════════════════════════════════
+function render() {
+  const canvas = document.getElementById('canvas');
+  canvas.innerHTML = '';
+
+  // Phase header row
+  const headerRow = document.createElement('div');
+  headerRow.id = 'phase-header-row';
+
+  const corner = document.createElement('div');
+  corner.className = 'corner-cell';
+  corner.textContent = 'Capas / Fases →';
+  headerRow.appendChild(corner);
+
+  state.phases.forEach(phase => {
+    const ph = document.createElement('div');
+    ph.className = 'phase-header';
+    ph.style.borderTop = `3px solid ${phase.color}`;
+    ph.innerHTML = `
+      <div class="ph-icon">${phase.icon}</div>
+      <div class="ph-info">
+        <div class="ph-label">${phase.label}</div>
+        <div class="ph-name">${phase.name}</div>
+      </div>
+    `;
+    ph.ondblclick = () => openEditPhase(phase.id);
+    headerRow.appendChild(ph);
+  });
+
+  // Add phase btn
+  const addPh = document.createElement('div');
+  addPh.className = 'phase-add-btn edit-only';
+  addPh.textContent = '+';
+  addPh.title = 'Agregar fase';
+  addPh.onclick = () => openAddPhase();
+  headerRow.appendChild(addPh);
+  canvas.appendChild(headerRow);
+
+  // Layer rows
+  state.layers.forEach(layer => {
+    const row = document.createElement('div');
+    row.className = 'layer-row' + (layer.collapsed ? ' collapsed' : '');
+    row.id = `row-${layer.id}`;
+
+    // Label column
+    const labelCol = document.createElement('div');
+    labelCol.className = 'layer-label';
+
+    const labelMain = document.createElement('div');
+    labelMain.className = 'layer-label-main';
+    labelMain.innerHTML = `
+      <div class="layer-icon">${layer.icon}</div>
+      <div class="layer-name-wrap">
+        <div class="layer-name" style="color:${layer.color}">${layer.name}</div>
+        <div class="layer-subtitle">${layer.subtitle}</div>
+      </div>
+      <div class="layer-chevron">▼</div>
+    `;
+    labelMain.onclick = () => toggleLayer(layer.id);
+    labelCol.appendChild(labelMain);
+
+    // Sublayer labels
+    if (layer.sublayers && layer.sublayers.length) {
+      layer.sublayers.forEach(sl => {
+        const slLabel = document.createElement('div');
+        slLabel.className = 'sublayer-label';
+        slLabel.innerHTML = `
+          <div class="sublayer-dot" style="background:${sl.color}"></div>
+          <div class="sublayer-name">${sl.name}</div>
+        `;
+        labelCol.appendChild(slLabel);
+      });
     }
+    row.appendChild(labelCol);
+
+    // Body
+    const body = document.createElement('div');
+    body.className = 'layer-body';
+
+    if (layer.sublayers && layer.sublayers.length) {
+      // Main layer cells (empty row for spacing context) + sublayer rows
+      const sublayerContainer = document.createElement('div');
+      sublayerContainer.className = 'sublayer-rows';
+      sublayerContainer.style.width = '100%';
+
+      layer.sublayers.forEach(sl => {
+        const slRow = document.createElement('div');
+        slRow.className = 'sublayer-row';
+        state.phases.forEach(phase => {
+          const cell = makeCellEl(layer.id, sl.id, phase.id, true);
+          slRow.appendChild(cell);
+        });
+        sublayerContainer.appendChild(slRow);
+      });
+      body.appendChild(sublayerContainer);
+    } else {
+      // Normal layer cells
+      state.phases.forEach(phase => {
+        const cell = makeCellEl(layer.id, '', phase.id, false);
+        body.appendChild(cell);
+      });
+    }
+
+    row.appendChild(body);
+    canvas.appendChild(row);
   });
-}
 
-function openSaveModal() {
-  document.getElementById('save-name').value = '';
-  document.getElementById('save-notes').value = '';
-  document.getElementById('modal-save').style.display = 'flex';
-  setTimeout(() => document.getElementById('save-name').focus(), 50);
-}
-
-function confirmSave() {
-  const name = document.getElementById('save-name').value.trim() || new Date().toLocaleString('es-CL');
-  const notes = document.getElementById('save-notes').value.trim();
-  closeModals();
-  window._saveToFirebase(name, notes);
-}
-
-function getColCount() { return document.querySelectorAll('#thead-row tr th.col-stage').length; }
-
-function makeEmptyCell() {
-  return `<div class="cell-wrap"><div class="cell-main empty" contenteditable="${editMode?'true':'false'}">—</div><div class="cell-add-btns"><button class="add-tag-btn add-gap-btn" onclick="addTag(this,'gap')">+ brecha</button><button class="add-tag-btn add-nav-btn" onclick="addTag(this,'nav')">+ NAV</button></div></div>`;
-}
-
-function updateColIndices() {
-  document.querySelectorAll('#thead-row tr th.col-stage').forEach((th, i) => {
-    th.dataset.col = i;
-    const b = th.querySelectorAll('.col-ctrl-btn');
-    if (b.length >= 3) { b[0].setAttribute('onclick',`addColBefore(${i})`); b[1].setAttribute('onclick',`addColAfter(${i})`); b[2].setAttribute('onclick',`deleteCol(${i})`); }
-  });
-}
-
-function addColumn() { pendingColAction={type:'append'}; showColModal('Nueva etapa (al final)'); }
-function addColBefore(i) { pendingColAction={type:'before',idx:i}; showColModal(`Nueva etapa (antes de col. ${i+1})`); }
-function addColAfter(i) { pendingColAction={type:'after',idx:i}; showColModal(`Nueva etapa (después de col. ${i+1})`); }
-function showColModal(title) {
-  document.getElementById('modal-col-title').textContent = title;
-  document.getElementById('new-col-title').value = '';
-  document.getElementById('new-col-sub').value = '';
-  document.getElementById('modal-col').style.display = 'flex';
-  setTimeout(() => document.getElementById('new-col-title').focus(), 50);
-}
-
-function confirmAddCol() {
-  const title = document.getElementById('new-col-title').value.trim(); if (!title) return;
-  const sub = document.getElementById('new-col-sub').value.trim();
-  const newTh = document.createElement('th'); newTh.className = 'col-stage';
-  newTh.innerHTML = `<span class="stage-title" contenteditable="false">${title}</span>${sub?`<span class="stage-sub" contenteditable="false">${sub}</span>`:''}<div class="col-controls"><button class="col-ctrl-btn">◀+</button><button class="col-ctrl-btn">+▶</button><button class="col-ctrl-btn">✕</button></div>`;
-  const hr = document.querySelector('#thead-row tr');
-  const ths = hr.querySelectorAll('th.col-stage');
-  if (pendingColAction.type==='append') hr.appendChild(newTh);
-  else if (pendingColAction.type==='before') hr.insertBefore(newTh, ths[pendingColAction.idx]);
-  else hr.insertBefore(newTh, ths[pendingColAction.idx].nextSibling);
-  document.querySelectorAll('#tbody tr:not(.section-sep)').forEach(row => {
-    const tds = row.querySelectorAll('td:not(.actor-cell)');
-    const td = document.createElement('td'); td.innerHTML = makeEmptyCell();
-    if (pendingColAction.type==='append') row.appendChild(td);
-    else if (pendingColAction.type==='before') row.insertBefore(td, tds[pendingColAction.idx]);
-    else row.insertBefore(td, tds[pendingColAction.idx]?.nextSibling||null);
-  });
-  updateColIndices(); closeModals();
-}
-
-function deleteCol(i) {
-  if (getColCount()<=1) return alert('Debe quedar al menos una columna.');
-  if (!confirm('¿Eliminar esta columna?')) return;
-  document.querySelectorAll('#thead-row tr th.col-stage')[i].remove();
-  document.querySelectorAll('#tbody tr:not(.section-sep)').forEach(row => { const tds=row.querySelectorAll('td:not(.actor-cell)'); if(tds[i]) tds[i].remove(); });
-  updateColIndices();
-}
-
-function openAddRowModal() {
-  const sel = document.getElementById('new-section');
-  sel.innerHTML = '<option value="">— elegir sección —</option>';
-  document.querySelectorAll('#tbody tr.section-sep').forEach(row => {
-    const td = row.querySelector('td');
-    const label = (td.querySelector('.sec-edit')?.textContent || td.childNodes[0]?.textContent || '').trim();
-    const opt = document.createElement('option'); opt.value = row.dataset.section; opt.textContent = label;
-    sel.appendChild(opt);
-  });
-  const o = document.createElement('option'); o.value='__new__'; o.textContent='+ Nueva sección'; sel.appendChild(o);
-  document.getElementById('new-actor').value = '';
-  document.getElementById('modal-row').style.display = 'flex';
-  setTimeout(() => document.getElementById('new-actor').focus(), 50);
-}
-
-function confirmAddRow() {
-  const actor = document.getElementById('new-actor').value.trim(); if (!actor) return;
-  const section = document.getElementById('new-section').value; if (!section) { alert('Elige una sección.'); return; }
-  if (section === '__new__') addNewSection(actor);
-  else addRowToSection(section, actor);
-  closeModals();
-}
-
-function addRowToSection(key, actor) {
-  const rows = Array.from(document.querySelectorAll('#tbody tr'));
-  let last = null, started = false;
-  for (const r of rows) {
-    if (r.classList.contains('section-sep') && r.dataset.section===key) { started=true; continue; }
-    if (started) { if (r.classList.contains('section-sep')) break; last=r; }
+  // Re-apply mode
+  if (state.mode === 'presentation') {
+    document.body.classList.add('presentation');
   }
-  const newRow = buildDataRow(key, actor);
-  (last || document.querySelector(`#tbody tr.section-sep[data-section="${key}"]`)).after(newRow);
 }
 
-function addNewSection(label) {
-  const key='sec_'+Date.now();
-  const cls=['sec-paciente','sec-frontstage','sec-bk-clin','sec-bk-admin','sec-nav','sec-aps','sec-sistemas'][Math.floor(Math.random()*7)];
-  const sep=document.createElement('tr'); sep.className='section-sep'; sep.dataset.section=key;
-  sep.innerHTML=`<td colspan="100" class="${cls}">${label}<div class="row-controls"><button class="row-ctrl-btn" onclick="addRowAfterSection(this)">+ fila</button><button class="row-ctrl-btn del" onclick="deleteSection(this)">✕</button></div></td>`;
-  const row=buildDataRow(key,label);
-  document.querySelector('#tbody').appendChild(sep);
-  document.querySelector('#tbody').appendChild(row);
+function makeCellEl(layerId, sublayerId, phaseId, isSublayer) {
+  const key = makeKey(layerId, sublayerId, phaseId);
+  const nodes = state.cells[key] || [];
+  const cell = document.createElement('div');
+  cell.className = 'cell' + (isSublayer ? ' sublayer-cell' : '');
+  cell.dataset.key = key;
+
+  nodes.forEach(node => {
+    cell.appendChild(makeNodeEl(node, key));
+  });
+
+  // Add btn
+  const addBtn = document.createElement('div');
+  addBtn.className = 'cell-add';
+  addBtn.textContent = '+';
+  addBtn.title = 'Agregar nodo';
+  addBtn.onclick = (e) => { e.stopPropagation(); openNewNode(key); };
+  cell.appendChild(addBtn);
+
+  return cell;
 }
 
-function buildDataRow(key, actor) {
-  const n=getColCount(); const row=document.createElement('tr'); row.dataset.section=key;
-  const ac=document.createElement('td'); ac.className='actor-cell'; ac.contentEditable=editMode?'true':'false'; ac.textContent=actor; row.appendChild(ac);
-  for(let i=0;i<n;i++){const td=document.createElement('td');td.innerHTML=makeEmptyCell();row.appendChild(td);}
-  return row;
+function makeNodeEl(node, cellKey) {
+  const status = STATUSES.find(s => s.id === node.status) || STATUSES[5];
+  const el = document.createElement('div');
+  el.className = `node ${status.cls}`;
+  el.dataset.nodeId = node.id;
+  el.dataset.cellKey = cellKey;
+
+  const typeIcon = node.type === 'touchpoint' ? '◎' : '⚡';
+  const typeCls  = node.type === 'touchpoint' ? 'type-touchpoint' : 'type-action';
+  const typeLabel= node.type === 'touchpoint' ? 'Touchpoint' : 'Acción';
+
+  const flagsHtml = (node.flags||[]).map(fid => {
+    const f = FLAGS.find(x=>x.id===fid);
+    return f ? `<span class="flag" title="${f.label}">${f.emoji}</span>` : '';
+  }).join('');
+
+  el.innerHTML = `
+    <div class="node-status-bar"></div>
+    <div class="node-top">
+      <span class="node-type-icon">${typeIcon}</span>
+      <div class="node-title">${node.title || 'Sin título'}</div>
+    </div>
+    <div class="node-badges">
+      <span class="badge ${typeCls}">${typeLabel}</span>
+      ${node.actor ? `<span class="badge" style="background:rgba(136,146,176,.2);color:var(--text2)">${node.actor}</span>` : ''}
+    </div>
+    ${flagsHtml ? `<div class="node-flags">${flagsHtml}</div>` : ''}
+  `;
+
+  el.onclick = (e) => { e.stopPropagation(); openEditNode(cellKey, node.id); };
+  return el;
 }
 
-function addRowAfterSection(btn) {
-  const sep=btn.closest('tr.section-sep'); const key=sep.dataset.section;
-  const actor=prompt('Nombre del actor:'); if(!actor) return;
-  const rows=Array.from(document.querySelectorAll('#tbody tr')); let last=sep, started=false;
-  for(const r of rows){if(r===sep){started=true;continue;}if(started){if(r.classList.contains('section-sep'))break;last=r;}}
-  last.after(buildDataRow(key,actor));
+// ══════════════════════════════════════════════════
+//  LAYER TOGGLE
+// ══════════════════════════════════════════════════
+function toggleLayer(layerId) {
+  const layer = state.layers.find(l => l.id === layerId);
+  if (layer) {
+    layer.collapsed = !layer.collapsed;
+    saveState();
+    render();
+  }
 }
 
-function deleteSection(btn) {
-  const sep=btn.closest('tr.section-sep'); const key=sep.dataset.section;
-  if(!confirm('¿Eliminar esta sección y sus filas?'))return;
-  document.querySelectorAll(`#tbody tr[data-section="${key}"]`).forEach(r=>r.remove());
+// ══════════════════════════════════════════════════
+//  PANEL LOGIC
+// ══════════════════════════════════════════════════
+let currentCellKey = null;
+let currentNodeId  = null;
+let isNewNode      = false;
+
+function openNewNode(cellKey) {
+  currentCellKey = cellKey;
+  currentNodeId  = null;
+  isNewNode      = true;
+  resetPanel();
+  document.getElementById('panel-title').textContent = 'Nuevo Nodo';
+  openPanel();
 }
 
-function addTag(btn, type) {
-  const wrap=btn.closest('.cell-wrap'); const addBtns=btn.closest('.cell-add-btns');
-  const tag=document.createElement('span'); tag.className=type==='gap'?'gap-tag':'nav-tag';
-  tag.contentEditable=editMode?'true':'false';
-  tag.innerHTML=(type==='gap'?'⚑ Nueva brecha':'↗ Nodo NAV')+'<span class="del-tag" onclick="removeTag(this)">✕</span>';
-  wrap.insertBefore(tag,addBtns);
-  const r=document.createRange(); r.setStart(tag.firstChild,0); r.collapse(true);
-  const s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+function openEditNode(cellKey, nodeId) {
+  if (state.mode === 'presentation') return;
+  currentCellKey = cellKey;
+  currentNodeId  = nodeId;
+  isNewNode      = false;
+  const nodes = state.cells[cellKey] || [];
+  const node  = nodes.find(n => n.id === nodeId);
+  if (!node) return;
+  document.getElementById('panel-title').textContent = 'Editar Nodo';
+  document.getElementById('f-title').value  = node.title  || '';
+  document.getElementById('f-actor').value  = node.actor  || '';
+  document.getElementById('f-desc').value   = node.desc   || '';
+  document.getElementById('f-notes').value  = node.notes  || '';
+  setType(node.type || 'action', false);
+  renderStatusGrid(node.status || 'notstarted');
+  renderFlagGrid(node.flags || []);
+  openPanel();
 }
 
-function removeTag(btn) { btn.closest('.gap-tag,.nav-tag').remove(); }
-function closeModals() { document.querySelectorAll('.modal-overlay').forEach(m=>m.style.display='none'); }
-document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModals(); });
+function resetPanel() {
+  document.getElementById('f-title').value  = '';
+  document.getElementById('f-actor').value  = '';
+  document.getElementById('f-desc').value   = '';
+  document.getElementById('f-notes').value  = '';
+  setType('action', false);
+  renderStatusGrid('notstarted');
+  renderFlagGrid([]);
+}
+
+function openPanel() {
+  document.getElementById('side-panel').classList.remove('closed');
+}
+function closePanel() {
+  document.getElementById('side-panel').classList.add('closed');
+  currentCellKey = null; currentNodeId = null;
+}
+
+let _currentType   = 'action';
+let _currentStatus = 'notstarted';
+let _currentFlags  = [];
+
+function setType(t, save=true) {
+  _currentType = t;
+  document.getElementById('t-action').className     = 'type-btn' + (t==='action'     ? ' active-action'     : '');
+  document.getElementById('t-touchpoint').className = 'type-btn' + (t==='touchpoint' ? ' active-touchpoint' : '');
+}
+
+function renderStatusGrid(selected) {
+  _currentStatus = selected;
+  const grid = document.getElementById('status-grid');
+  grid.innerHTML = '';
+  STATUSES.forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'status-opt' + (s.id === selected ? ' selected' : '');
+    div.style.borderColor = s.color;
+    div.style.color = s.color;
+    if (s.id === selected) div.style.background = s.color + '22';
+    div.textContent = s.label;
+    div.onclick = () => renderStatusGrid(s.id);
+    grid.appendChild(div);
+  });
+}
+
+function renderFlagGrid(selected) {
+  _currentFlags = [...selected];
+  const grid = document.getElementById('flag-grid');
+  grid.innerHTML = '';
+  FLAGS.forEach(f => {
+    const btn = document.createElement('div');
+    btn.className = 'flag-btn' + (_currentFlags.includes(f.id) ? ' active' : '');
+    btn.textContent = f.emoji + ' ' + f.label;
+    btn.onclick = () => {
+      if (_currentFlags.includes(f.id)) _currentFlags = _currentFlags.filter(x=>x!==f.id);
+      else _currentFlags.push(f.id);
+      renderFlagGrid(_currentFlags);
+    };
+    grid.appendChild(btn);
+  });
+}
+
+function saveNode() {
+  const title = document.getElementById('f-title').value.trim();
+  if (!title) { document.getElementById('f-title').style.borderColor='var(--red)'; return; }
+  document.getElementById('f-title').style.borderColor='';
+
+  const nodeData = {
+    title, type:_currentType,
+    actor: document.getElementById('f-actor').value.trim(),
+    desc:  document.getElementById('f-desc').value.trim(),
+    notes: document.getElementById('f-notes').value.trim(),
+    status: _currentStatus,
+    flags:  [..._currentFlags],
+  };
+
+  if (!state.cells[currentCellKey]) state.cells[currentCellKey] = [];
+
+  if (isNewNode) {
+    nodeData.id = uid();
+    state.cells[currentCellKey].push(nodeData);
+  } else {
+    const idx = state.cells[currentCellKey].findIndex(n=>n.id===currentNodeId);
+    if (idx >= 0) { nodeData.id = currentNodeId; state.cells[currentCellKey][idx] = nodeData; }
+  }
+
+  saveState();
+  render();
+  closePanel();
+}
+
+function deleteNode() {
+  if (!currentCellKey || !currentNodeId) return;
+  if (!confirm('¿Eliminar este nodo?')) return;
+  state.cells[currentCellKey] = (state.cells[currentCellKey]||[]).filter(n=>n.id!==currentNodeId);
+  saveState(); render(); closePanel();
+}
+
+// ══════════════════════════════════════════════════
+//  PHASE MODAL
+// ══════════════════════════════════════════════════
+let modalMode = 'add';
+let editPhaseId = null;
+
+function renderModalColors(selected) {
+  const cont = document.getElementById('modal-colors');
+  cont.innerHTML = '';
+  PHASE_COLORS.forEach(c => {
+    const sw = document.createElement('div');
+    sw.style.cssText = `width:24px;height:24px;border-radius:50%;background:${c};cursor:pointer;border:2px solid ${c===selected?'#fff':'transparent'};transition:all .15s`;
+    sw.title = c;
+    sw.onclick = () => { _modalColor = c; renderModalColors(c); };
+    cont.appendChild(sw);
+  });
+}
+
+let _modalColor = PHASE_COLORS[0];
+
+function openAddPhase() {
+  modalMode = 'add';
+  _modalColor = PHASE_COLORS[0];
+  document.getElementById('modal-title').textContent = 'Nueva Fase';
+  document.getElementById('modal-name').value = '';
+  document.getElementById('modal-icon').value = '📌';
+  document.getElementById('modal-confirm').textContent = 'Crear';
+  renderModalColors(_modalColor);
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function openEditPhase(phaseId) {
+  modalMode = 'edit';
+  editPhaseId = phaseId;
+  const phase = state.phases.find(p=>p.id===phaseId);
+  if (!phase) return;
+  _modalColor = phase.color;
+  document.getElementById('modal-title').textContent = 'Editar Fase';
+  document.getElementById('modal-name').value = phase.name;
+  document.getElementById('modal-icon').value = phase.icon;
+  document.getElementById('modal-confirm').textContent = 'Guardar';
+  renderModalColors(_modalColor);
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+
+function confirmModal() {
+  const name = document.getElementById('modal-name').value.trim();
+  const icon = document.getElementById('modal-icon').value.trim() || '📌';
+  if (!name) return;
+  if (modalMode === 'add') {
+    const n = state.phases.length + 1;
+    state.phases.push({ id:'p'+uid(), icon, name, color:_modalColor, label:`Fase ${n}` });
+  } else {
+    const phase = state.phases.find(p=>p.id===editPhaseId);
+    if (phase) { phase.name = name; phase.icon = icon; phase.color = _modalColor; }
+  }
+  saveState(); render(); closeModal();
+}
+
+// ══════════════════════════════════════════════════
+//  MODE SWITCH
+// ══════════════════════════════════════════════════
+function setMode(mode) {
+  state.mode = mode;
+  if (mode === 'presentation') {
+    document.body.classList.add('presentation');
+    document.getElementById('btn-work').classList.remove('active');
+    document.getElementById('btn-pres').classList.add('active');
+    document.getElementById('btn-pres2').style.display = 'flex';
+    closePanel();
+  } else {
+    document.body.classList.remove('presentation');
+    document.getElementById('btn-work').classList.add('active');
+    document.getElementById('btn-pres').classList.remove('active');
+    document.getElementById('btn-pres2').style.display = 'none';
+  }
+  saveState();
+}
+
+// ══════════════════════════════════════════════════
+//  EXPORT / IMPORT
+// ══════════════════════════════════════════════════
+function exportData() {
+  const blob = new Blob([JSON.stringify(state,null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `blueprint_oncologico_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+}
+
+function importData() {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = '.json';
+  input.onchange = e => {
+    const file = e.target.files[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        const imported = JSON.parse(ev.target.result);
+        if (imported.phases && imported.layers) {
+          state = imported;
+          saveState(); render();
+        } else { alert('Archivo no válido.'); }
+      } catch(err) { alert('Error al leer el archivo.'); }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+// Close modal on overlay click
+document.getElementById('modal-overlay').onclick = function(e) {
+  if (e.target === this) closeModal();
+};
+
+// ══════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════
+loadState();
+render();
 </script>
 </body>
 </html>
